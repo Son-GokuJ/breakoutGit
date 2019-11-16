@@ -6,6 +6,7 @@ import break_out.Constants;
  * This class contains the information about the balls characteristics and behavior
  * 
  * @author iSchumacher
+ * testtest
  *
  */
 public class Ball implements IBall{
