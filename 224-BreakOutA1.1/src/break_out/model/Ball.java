@@ -6,7 +6,7 @@ import break_out.Constants;
  * This class contains the information about the balls characteristics and behavior
  * 
  * @author iSchumacher
- * testtest
+ * modified by 224 
  *
  */
 public class Ball implements IBall{
@@ -26,8 +26,9 @@ public class Ball implements IBall{
 	 * The balls position and direction are initialized here.
 	 */
 	public Ball() {
-		this.position = new Position(0, 0);
-		this.direction = new Vector2D(0,0);
+		this.position = new Position(Constants.SCREEN_WIDTH /2 -7, Constants.SCREEN_HEIGHT - Constants.BALL_DIAMETER);
+		this.direction = new Vector2D(5.0,-5.0);
+		direction.rescale();
 	}
 	
 	/**
@@ -47,16 +48,31 @@ public class Ball implements IBall{
 	}
 	
 	/**
-	 * 
+	 * Moving the ball to its new position before it's drawn.
 	 */
 	public void updatePosition() {
-		
+		position.setX(position.getX() + direction.getDx());
+		position.setY(position.getY() + direction.getDy());
 	}
 	
 	/**
-	 * 
+	 * Determining border contact and reversing vector direction
+	 * accordingly
 	 */
 	public void reactOnBorder() {
+		if (position.getX() >= 880 -Constants.BALL_DIAMETER) {
+			double newDx = -1 * direction.getDx();
+			direction.setDx(newDx);
+		}else if (position.getY() <= 0) {
+			double newDy = -1 * direction.getDy();
+			direction.setDy(newDy);
+		}else if (position.getX() <= 0) {
+			double newDx = -1 * direction.getDx();
+			direction.setDx(newDx);
+		}else if (position.getY() >= 750 - Constants.BALL_DIAMETER) {
+			double newDy = -1 * direction.getDy();
+			direction.setDy(newDy);
+		}
 		
 	}
 	

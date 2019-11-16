@@ -6,6 +6,7 @@ package break_out.model;
  * 
  * @author dmlux
  * @author I. Schumacher
+ * modified by 224
  */
 public class Level extends Thread {
 
@@ -92,10 +93,10 @@ public class Level extends Thread {
 	        if (ballWasStarted) {
 	                
 	        	// Call here the balls method for updating his position on the playground
-	        	
+	        	ball.updatePosition();
 	            		            	
 	        	// Call here the balls method for reacting on the borders of the playground
-		         
+		         ball.reactOnBorder();
 	        	
 	                               
 	            // Tells the observer to repaint the components on the playground

@@ -7,8 +7,9 @@ import break_out.model.Position;
  * This class represent a two dimensional vector.
  * 
  * @author I. Schumacher
+ * modified by 224
  */
-public class Vector2D {
+public class Vector2D implements IVector2D{
 
 	/**
 	 * The x part of the vector
@@ -65,6 +66,20 @@ public class Vector2D {
 	 */
 	public void setDy(double dy) {
 		this.dy = dy;
+	}
+	/**
+	 * Rescaled the vector so that length = 1
+	 * and then scales vector according to BALL_SPEED
+	 */
+	public void rescale() {
+		double oldX = this.dx;
+		double oldY = this.dy;
+		double length = Math.sqrt(oldY * oldY + oldX * oldX);
+		double normX = oldX / length;
+		double normY = oldY / length;
+		this.dx = normX * Constants.BALL_SPEED;
+		this.dy = normY * Constants.BALL_SPEED;
+		
 	}
 
 }
