@@ -6,7 +6,7 @@ package break_out.model;
  * 
  * @author dmlux
  * @author I. Schumacher
- * modified by 224
+ * @author modified by 224
  */
 public class Level extends Thread {
 

@@ -6,7 +6,7 @@ import break_out.Constants;
  * This class contains the information about the balls characteristics and behavior
  * 
  * @author iSchumacher
- * modified by 224 
+ * @author modified by 224 
  *
  */
 public class Ball implements IBall{
@@ -24,6 +24,8 @@ public class Ball implements IBall{
 	/**
 	 * The constructor of a ball
 	 * The balls position and direction are initialized here.
+	 * Startingpoint is the center bottom of the window. Direction is 
+	 * affected by BALL_SPEED through direction.rescale()
 	 */
 	public Ball() {
 		this.position = new Position(Constants.SCREEN_WIDTH /2 -7, Constants.SCREEN_HEIGHT - Constants.BALL_DIAMETER);

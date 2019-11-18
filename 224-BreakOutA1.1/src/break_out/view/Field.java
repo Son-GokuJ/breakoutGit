@@ -15,7 +15,7 @@ import net.miginfocom.swing.MigLayout;
  * The field represents the board of the game. All components are on the board
  * 
  * @author dmlux, modified by iSchumacher
- * modified by 224 
+ * @author modified by 224 
  */
 public class Field extends JPanel {
 
@@ -53,7 +53,7 @@ public class Field extends JPanel {
 
 	/**
 	 * Drawing the grid layout
-	 * 	
+	 * @param g2 the graphics object from Graphics2D
 	 */
 	private void drawGrid(Graphics2D g2) {
 		int sectionX = Constants.SCREEN_WIDTH / Constants.SQUARES_X;
