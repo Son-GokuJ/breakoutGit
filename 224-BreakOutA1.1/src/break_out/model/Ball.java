@@ -66,7 +66,7 @@ public class Ball implements IBall{
 		if (position.getX() >= Constants.SCREEN_WIDTH - Constants.BALL_DIAMETER) {
 			double newDx = -1 * direction.getDx();
 			direction.setDx(newDx);
-			if(position.getX() > 880) {
+			if(position.getX() > Constants.SCREEN_WIDTH - Constants.BALL_DIAMETER) {
 				position.setX(Constants.SCREEN_WIDTH - Constants.BALL_DIAMETER);
 			}
 		}else if (position.getY() <= 0) {
@@ -78,7 +78,7 @@ public class Ball implements IBall{
 		}else if (position.getY() >= Constants.SCREEN_HEIGHT - Constants.BALL_DIAMETER) {
 			double newDy = -1 * direction.getDy();
 			direction.setDy(newDy);
-			if(position.getY() > Constants.SCREEN_HEIGHT) {
+			if(position.getY() > Constants.SCREEN_HEIGHT - Constants.BALL_DIAMETER) {
 				position.setY(Constants.SCREEN_HEIGHT - Constants.BALL_DIAMETER);
 			}
 		}
