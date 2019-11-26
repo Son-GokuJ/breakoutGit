@@ -75,12 +75,15 @@ public class Vector2D implements IVector2D{
 	public void rescale() {
 		double oldX = this.dx;
 		double oldY = this.dy;
-		double length = Math.sqrt(oldY * oldY + oldX * oldX);
-		double normX = oldX / length;
-		double normY = oldY / length;
-		this.dx = normX * Constants.BALL_SPEED;
-		this.dy = normY * Constants.BALL_SPEED;
-		
+		//double length = Math.sqrt(oldY * oldY + oldX * oldX);
+		//double normX = oldX / length;
+		//double normY = oldY / length;
+		//this.dx = normX * Constants.BALL_SPEED;
+		//this.dy = normY * Constants.BALL_SPEED;
+		this.dx = (oldX / (Math.sqrt(oldX * oldX + oldY * oldY))) 
+				* Constants.BALL_SPEED;
+		this.dy = (oldY / (Math.sqrt(oldX * oldX + oldY + oldY))) 
+				* Constants.BALL_SPEED;
 	}
 
 }

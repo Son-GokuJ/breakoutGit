@@ -28,7 +28,7 @@ public class Ball implements IBall{
 	 * affected by BALL_SPEED through direction.rescale()
 	 */
 	public Ball() {
-		this.position = new Position((Constants.SCREEN_WIDTH + Constants.BALL_DIAMETER)/2,
+		this.position = new Position((Constants.SCREEN_WIDTH - Constants.BALL_DIAMETER)/2,
 				Constants.SCREEN_HEIGHT - Constants.BALL_DIAMETER);
 		this.direction = new Vector2D(5.0,-5.0);
 		direction.rescale();
@@ -64,23 +64,17 @@ public class Ball implements IBall{
 	 */
 	public void reactOnBorder() {
 		if (position.getX() >= Constants.SCREEN_WIDTH - Constants.BALL_DIAMETER) {
-			double newDx = -1 * direction.getDx();
-			direction.setDx(newDx);
-			if(position.getX() > Constants.SCREEN_WIDTH - Constants.BALL_DIAMETER) {
-				position.setX(Constants.SCREEN_WIDTH - Constants.BALL_DIAMETER);
-			}
+			direction.setDx(-1 * direction.getDx());
+			position.setX(Constants.SCREEN_WIDTH - Constants.BALL_DIAMETER);
 		}else if (position.getY() <= 0) {
-			double newDy = -1 * direction.getDy();
-			direction.setDy(newDy);
+			direction.setDy(-1 * direction.getDy());
+			position.setY(0);
 		}else if (position.getX() <= 0) {
-			double newDx = -1 * direction.getDx();
-			direction.setDx(newDx);
+			direction.setDx(-1 * direction.getDx());
+			position.setX(0);
 		}else if (position.getY() >= Constants.SCREEN_HEIGHT - Constants.BALL_DIAMETER) {
-			double newDy = -1 * direction.getDy();
-			direction.setDy(newDy);
-			if(position.getY() > Constants.SCREEN_HEIGHT - Constants.BALL_DIAMETER) {
-				position.setY(Constants.SCREEN_HEIGHT - Constants.BALL_DIAMETER);
-			}
+			direction.setDy(-1 * direction.getDy());
+			position.setY(Constants.SCREEN_HEIGHT - Constants.BALL_DIAMETER);
 		}
 		
 	}
