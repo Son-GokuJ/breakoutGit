@@ -87,7 +87,8 @@ public class Ball implements IBall {
 	 */
 	public boolean hitsPaddle(Paddle p) {
 		boolean hitsPaddle = false;
-		if (position.getY() < (Constants.SCREEN_HEIGHT) / 2 - (Constants.BALL_DIAMETER) / 2) {
+		if (position.getY() < (Constants.SCREEN_HEIGHT) / 2 - (Constants.BALL_DIAMETER) / 2 &&
+			p.getPosition().getY() == 0) {
 			
 			if (position.getY() <= Constants.PADDLE_HEIGHT &&
 				p.getPosition().getX() + Constants.PADDLE_WIDTH >= position.getX() + (Constants.BALL_DIAMETER)/2 &&
@@ -97,7 +98,8 @@ public class Ball implements IBall {
 				
 	
 
-		} else if (position.getY() > (Constants.SCREEN_HEIGHT) / 2 - (Constants.BALL_DIAMETER) / 2) {
+		} else if (position.getY() > (Constants.SCREEN_HEIGHT) / 2 - (Constants.BALL_DIAMETER) / 2 &&
+				p.getPosition().getY() != 0) {
 			if (p.getPosition().getY() <= position.getY() + Constants.BALL_DIAMETER &&
 				p.getPosition().getX() + Constants.PADDLE_WIDTH >= position.getX() + (Constants.BALL_DIAMETER)/2 &&
 				position.getX() + (Constants.BALL_DIAMETER)/2 >= p.getPosition().getX()) {
@@ -106,6 +108,26 @@ public class Ball implements IBall {
 		}
 		
 		return hitsPaddle;
+	}
+	
+	/**
+	 * Ball behavior when hitting the paddle
+	 * 
+	 * @param p the top or bottom paddle
+	 */
+	public void reflectOnPaddle(Paddle p) {
+		if (p.getPosition().getY() == 0 && hitsPaddle(p)) {
+			Position offset = new Position(p.getPosition().getX() + (Constants.PADDLE_WIDTH)/2, (int) (Constants.PADDLE_HEIGHT - Constants.REFLECTION_OFFSET));
+			Position current = new Position(this.position.getX(), Constants.PADDLE_HEIGHT);
+			this.direction = new Vector2D(offset, current);
+			direction.rescale();
+		}else if (p.getPosition().getY() != 0 && hitsPaddle(p)) {
+			Position offset = new Position(p.getPosition().getX() + (Constants.PADDLE_WIDTH)/2, (int) (Constants.SCREEN_HEIGHT 
+					- Constants.PADDLE_HEIGHT + Constants.REFLECTION_OFFSET));
+			Position current = new Position(this.position.getX(), Constants.SCREEN_HEIGHT - Constants.PADDLE_HEIGHT - Constants.BALL_DIAMETER);
+			this.direction = new Vector2D(offset, current);
+			direction.rescale();
+		}
 	}
 
 }

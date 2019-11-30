@@ -116,16 +116,20 @@ public class Level extends Thread implements ILevel  {
 	            // Tells the observer to repaint the components on the playground
 	            game.notifyObservers();  
 	            
+	            // Test for hitting the bottom paddle
+	            if (ball.hitsPaddle(paddleBottom)) {
+	            	
+	            	ball.reflectOnPaddle(paddleBottom);
+	            }
+	            
 	            // Test for hitting the top paddle
 	            if (ball.hitsPaddle(paddleTop)) {
-	            	System.out.println("hits top");
+	            	
+	            	ball.reflectOnPaddle(paddleTop);
 	            }
 
 	            
-	            // Test for hitting the bottom paddle
-	            if (ball.hitsPaddle(paddleBottom)) {
-	            	System.out.println("hits bottom");
-	            }
+	            
 	        }
 	        // The thread pauses for a short time 
 	        try {
