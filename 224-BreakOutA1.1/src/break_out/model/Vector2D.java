@@ -32,6 +32,18 @@ public class Vector2D implements IVector2D{
 		this.dy = dy;
 	}
 
+	
+	/**
+	 * This constructor creates a new vector with two given positions on the field
+	 * 
+	 * @param pos1 the starting position
+	 * @param pos2 the end position
+	 */
+	public Vector2D(Position pos1, Position pos2) {
+		this.dx = pos2.getX() - pos1.getX(); 
+		this.dy = pos2.getY() - pos1.getY(); 
+	}
+	
 	/**
 	 * Getter for the dx-part
 	 * 

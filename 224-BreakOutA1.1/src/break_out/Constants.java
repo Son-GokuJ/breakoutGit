@@ -48,7 +48,7 @@ public class Constants {
     /**
      * The paddle width in pixels
      */
-    public static final Integer PADDLE_WIDTH = 70;
+    public static final Integer PADDLE_WIDTH = 450;
 
     /**
      * The paddle height in pixels
@@ -63,7 +63,7 @@ public class Constants {
     /**
      * The ball diameter in pixels
      */
-    public static final Integer BALL_DIAMETER = 15;
+    public static final Integer BALL_DIAMETER = 35;
 
     /**
      * The paddle speed

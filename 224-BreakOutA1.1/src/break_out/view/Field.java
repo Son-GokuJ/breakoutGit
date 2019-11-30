@@ -132,6 +132,13 @@ public class Field extends JPanel {
 		//Calls the method for drawing the grid
 		drawGrid(g2);
 		
+		
+		//Calls the method for drawing the top paddle
+		drawPaddleTop(g2);
+
+		
+		//Calls the method for drawing the bottom paddle
+		drawPaddleBottom(g2);
 	}
 
 	/**
@@ -143,6 +150,30 @@ public class Field extends JPanel {
 				(int) view.getGame().getLevel().getBall().getPosition().getY(),
 				Constants.BALL_DIAMETER,
 				Constants.BALL_DIAMETER);
+	}
+	
+	
+	/**
+	 * Draws the bottom paddle
+	 * @param g2 The graphics object
+	 */
+	private void drawPaddleBottom(Graphics2D g2) {
+		g2.fillRoundRect((int) view.getGame().getLevel().getPaddleBottom().getPosition().getX(),
+				(int) view.getGame().getLevel().getPaddleBottom().getPosition().getY(),
+				(int) view.getGame().getLevel().getPaddleBottom().getWidth(),
+				(int) view.getGame().getLevel().getPaddleBottom().getHeight(),15,15);
+	}
+	
+	
+	/**
+	 * Draws the top paddle
+	 * @param g2 The graphics object
+	 */
+	private void drawPaddleTop(Graphics2D g2) {
+		g2.fillRoundRect((int) view.getGame().getLevel().getPaddleTop().getPosition().getX(),
+				(int) view.getGame().getLevel().getPaddleTop().getPosition().getY(),
+				(int) view.getGame().getLevel().getPaddleTop().getWidth(),
+				(int) view.getGame().getLevel().getPaddleTop().getHeight(),15,15);
 	}
 
 }
