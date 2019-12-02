@@ -77,7 +77,7 @@ public class Paddle implements IPaddle {
 	 * @return width The width of the paddle
 	 */
 	@Override
-	public double getWidth() {
+	public int getWidth() {
 		return this.width;
 	}
 
@@ -87,8 +87,8 @@ public class Paddle implements IPaddle {
 	 * @param width The new width of the paddle
 	 */
 	@Override
-	public void setWidth(double width) {
-		this.width = (int) width;
+	public void setWidth(int width) {
+		this.width = width;
 	}
 	
 	/**
@@ -96,7 +96,7 @@ public class Paddle implements IPaddle {
 	 * @return height The height of the paddle
 	 */
 	@Override
-	public double getHeight() {
+	public int getHeight() {
 		return this.height;
 	}
 
@@ -106,8 +106,8 @@ public class Paddle implements IPaddle {
 	 * @param height The new height of the paddle
 	 */
 	@Override
-	public void setHeight(double height) {
-		this.height = (int) height;
+	public void setHeight(int height) {
+		this.height = height;
 	}
 
 }

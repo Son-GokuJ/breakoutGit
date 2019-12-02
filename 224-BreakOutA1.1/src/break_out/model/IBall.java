@@ -7,4 +7,8 @@ public interface IBall {
     public void reactOnBorder();
     public Position getPosition();
     public Vector2D getDirection();
+
+    // Exercise 2
+    public boolean hitsPaddle(Paddle paddle);
+    public void reflectOnPaddle(Paddle paddle);
 }

@@ -9,9 +9,8 @@ public interface IPaddle {
     public void setPosition(Position position);
     public Color getColor();
     public void setColor(Color color);
-    public double getWidth();
-    public void setWidth(double width);
-    public double getHeight();
-    public void setHeight(double height);
-    
+    public int getWidth();
+    public void setWidth(int width);
+    public int getHeight();
+    public void setHeight(int height);
 }
