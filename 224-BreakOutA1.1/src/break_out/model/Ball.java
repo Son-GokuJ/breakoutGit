@@ -83,6 +83,7 @@ public class Ball implements IBall {
 	/**
 	 * Determining the nearest paddle and wether it's hit
 	 * @param p the top or bottom paddle
+	 * @return boolean Value wether the paddle is hit or not
 	 */
 	public boolean hitsPaddle(Paddle p) {
 		boolean hitsPaddle = false;

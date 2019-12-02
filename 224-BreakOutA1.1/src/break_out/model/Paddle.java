@@ -29,7 +29,7 @@ public class Paddle implements IPaddle {
 	
 	/**
 	 * The constructor for the paddle.
-	 * @param position The paddles position.
+	 * @param position The new position of the paddle
 	 */
 	public Paddle(Position position) {
 		this.position = position;
@@ -37,7 +37,7 @@ public class Paddle implements IPaddle {
 	
 	/**
 	 * get method for the paddle position
-	 * @return position
+	 * @return position The position of the paddle
 	 */
 	@Override
 	public Position getPosition() {
@@ -46,7 +46,7 @@ public class Paddle implements IPaddle {
 
 	/**
 	 * set method for the position
-	 * @param position
+	 * @param position The new position of the paddle
 	 */
 	@Override
 	public void setPosition(Position position) {
@@ -55,7 +55,7 @@ public class Paddle implements IPaddle {
 	
 	/**
 	 * get method for the paddle color
-	 * @return color
+	 * @return color The color of the paddle
 	 */
 	@Override
 	public Color getColor() {
@@ -65,7 +65,7 @@ public class Paddle implements IPaddle {
 	
 	/**
 	 * set method for the paddle color
-	 * @param color
+	 * @param color The new color of the paddle
 	 */
 	@Override
 	public void setColor(Color color) {
@@ -74,7 +74,7 @@ public class Paddle implements IPaddle {
 	
 	/**
 	 * get method for the paddle width
-	 * @return width
+	 * @return width The width of the paddle
 	 */
 	@Override
 	public double getWidth() {
@@ -84,7 +84,7 @@ public class Paddle implements IPaddle {
 	
 	/**
 	 * set method for the paddle width
-	 * @param width
+	 * @param width The new width of the paddle
 	 */
 	@Override
 	public void setWidth(double width) {
@@ -93,7 +93,7 @@ public class Paddle implements IPaddle {
 	
 	/**
 	 * get method for the paddle height
-	 * @return height 
+	 * @return height The height of the paddle
 	 */
 	@Override
 	public double getHeight() {
@@ -103,7 +103,7 @@ public class Paddle implements IPaddle {
 	
 	/**
 	 * set method for the paddle height
-	 * @param height
+	 * @param height The new height of the paddle
 	 */
 	@Override
 	public void setHeight(double height) {
