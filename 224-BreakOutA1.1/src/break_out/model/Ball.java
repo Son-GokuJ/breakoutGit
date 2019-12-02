@@ -24,7 +24,7 @@ public class Ball implements IBall {
 
 	/**
 	 * The constructor of a ball The balls position and direction are initialized
-	 * here. Startingpoint is the center bottom of the window. Direction is affected
+	 * here. Startingpoint is the center on the bottom paddle. Direction is affected
 	 * by BALL_SPEED through direction.rescale()
 	 */
 	public Ball() {
@@ -82,7 +82,6 @@ public class Ball implements IBall {
 
 	/**
 	 * Determining the nearest paddle and wether it's hit
-	 * 
 	 * @param p the top or bottom paddle
 	 */
 	public boolean hitsPaddle(Paddle p) {
@@ -112,7 +111,6 @@ public class Ball implements IBall {
 	
 	/**
 	 * Ball behavior when hitting the paddle
-	 * 
 	 * @param p the top or bottom paddle
 	 */
 	public void reflectOnPaddle(Paddle p) {

@@ -36,7 +36,6 @@ public class Field extends JPanel {
 
 	/**
 	 * The constructor needs a view
-	 * 
 	 * @param view The view of this board
 	 */
 	public Field(View view) {
@@ -56,19 +55,6 @@ public class Field extends JPanel {
 	 * @param g2 the graphics object from Graphics2D
 	 */
 	private void drawGrid(Graphics2D g2) {
-		//int sectionX = Constants.SCREEN_WIDTH / Constants.SQUARES_X;
-		//int sectionY = Constants.SCREEN_HEIGHT / Constants.SQUARES_Y;
-		//int a = sectionX;
-		//while (a < 880 ) {
-			//g2.drawLine(a, 0, a, Constants.SCREEN_HEIGHT);
-			//a += sectionX;
-		//}
-		
-		//int b = sectionY;
-		//while (b < 750 ) {
-			//g2.drawLine(0, b, Constants.SCREEN_WIDTH, b);
-			//b += sectionY;
-		//}
 		for(int y = Constants.SCREEN_HEIGHT / Constants.SQUARES_Y; 
 				y < Constants.SCREEN_HEIGHT; 
 				y = y + (Constants.SCREEN_HEIGHT / Constants.SQUARES_Y)) {

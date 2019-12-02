@@ -23,7 +23,6 @@ public class Vector2D implements IVector2D{
 
 	/**
 	 * This constructor creates a new vector with the given x and y parts.
-	 * 
 	 * @param dx the delta x part for the new vector
 	 * @param dy the delty y part for the new vector
 	 */
@@ -34,8 +33,7 @@ public class Vector2D implements IVector2D{
 
 	
 	/**
-	 * This constructor creates a new vector with two given positions on the field
-	 * 
+	 * This constructor creates a new vector with two given positions on the field.
 	 * @param pos1 the starting position
 	 * @param pos2 the end position
 	 */
@@ -46,7 +44,6 @@ public class Vector2D implements IVector2D{
 	
 	/**
 	 * Getter for the dx-part
-	 * 
 	 * @return dx The dx part of this vector
 	 */
 	public double getDx() {
@@ -55,7 +52,6 @@ public class Vector2D implements IVector2D{
 
 	/**
 	 * Setter for the dx-part
-	 * 
 	 * @param dx The new dx part of this vector
 	 */
 	public void setDx(double dx) {
@@ -64,7 +60,6 @@ public class Vector2D implements IVector2D{
 
 	/**
 	 * Getter for the dy-part
-	 * 
 	 * @return dy The dy part of this vector
 	 */
 	public double getDy() {
@@ -73,7 +68,6 @@ public class Vector2D implements IVector2D{
 
 	/**
 	 * Setter for the dy-part
-	 * 
 	 * @param dy The new dy part of this vector
 	 */
 	public void setDy(double dy) {
@@ -87,11 +81,6 @@ public class Vector2D implements IVector2D{
 	public void rescale() {
 		double oldX = this.dx;
 		double oldY = this.dy;
-		//double length = Math.sqrt(oldY * oldY + oldX * oldX);
-		//double normX = oldX / length;
-		//double normY = oldY / length;
-		//this.dx = normX * Constants.BALL_SPEED;
-		//this.dy = normY * Constants.BALL_SPEED;
 		this.dx = (oldX / (Math.sqrt(oldX * oldX + oldY * oldY))) 
 				* Constants.BALL_SPEED;
 		this.dy = (oldY / (Math.sqrt(oldX * oldX + oldY + oldY))) 

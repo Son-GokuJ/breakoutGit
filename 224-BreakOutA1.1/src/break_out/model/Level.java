@@ -118,13 +118,13 @@ public class Level extends Thread implements ILevel  {
 	            
 	            // Test for hitting the bottom paddle
 	            if (ball.hitsPaddle(paddleBottom)) {
-	            	
+	        	// Call here the balls method for reacting on hitting the bottom paddle.
 	            	ball.reflectOnPaddle(paddleBottom);
 	            }
 	            
 	            // Test for hitting the top paddle
 	            if (ball.hitsPaddle(paddleTop)) {
-	            	
+	        	// Call here the balls method for reacting on hitting the top paddle.
 	            	ball.reflectOnPaddle(paddleTop);
 	            }
 
@@ -152,7 +152,7 @@ public class Level extends Thread implements ILevel  {
     
     /**
      * The getter for the PaddleTop object
-     * @return paddleTop
+     * @return paddleTop The top paddle object
      */
 	@Override
 	public Paddle getPaddleTop() {
@@ -162,7 +162,7 @@ public class Level extends Thread implements ILevel  {
 	
     /**
      * The getter for the PaddleBottom object
-     * @return paddleBottom
+     * @return paddleBottom The bottom paddle objects
      */
 	@Override
 	public Paddle getPaddleBottom() {
