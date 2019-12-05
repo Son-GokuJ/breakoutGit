@@ -28,8 +28,8 @@ public class Ball implements IBall {
 	 * by BALL_SPEED through direction.rescale()
 	 */
 	public Ball() {
-		this.position = new Position((Constants.SCREEN_WIDTH - Constants.BALL_DIAMETER) / 2,
-				Constants.SCREEN_HEIGHT - Constants.PADDLE_HEIGHT - Constants.BALL_DIAMETER);
+		this.position = new Position(((double)Constants.SCREEN_WIDTH - (double)Constants.BALL_DIAMETER) / 2,
+				(double)Constants.SCREEN_HEIGHT - (double)Constants.PADDLE_HEIGHT - (double)Constants.BALL_DIAMETER);
 		this.direction = new Vector2D(5.0, -5.0);
 		direction.rescale();
 	}
