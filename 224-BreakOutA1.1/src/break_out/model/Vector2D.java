@@ -83,7 +83,7 @@ public class Vector2D implements IVector2D{
 		double oldY = this.dy;
 		this.dx = (oldX / (Math.sqrt(oldX * oldX + oldY * oldY))) 
 				* Constants.BALL_SPEED;
-		this.dy = (oldY / (Math.sqrt(oldX * oldX + oldY + oldY))) 
+		this.dy = (oldY / (Math.sqrt(oldX * oldX + oldY * oldY))) 
 				* Constants.BALL_SPEED;
 	}
 
