@@ -25,7 +25,7 @@ public class Paddle implements IPaddle {
 	 */
 	private int width = Constants.PADDLE_WIDTH;
 	private int height = Constants.PADDLE_HEIGHT;
-	private Color color = Color.BLACK;
+	private Color color;
 	
 	/**
 	 * The constructor for the paddle.
