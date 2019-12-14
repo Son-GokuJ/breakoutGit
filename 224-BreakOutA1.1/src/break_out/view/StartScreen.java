@@ -18,6 +18,7 @@ import net.miginfocom.swing.MigLayout;
  * This screen serves the configuration of the game.
  * 
  * @author dmlux, modified by I. Schumacher
+ * @author modified by 224
  * 
  */
 public class StartScreen extends JPanel {
@@ -108,7 +109,7 @@ public class StartScreen extends JPanel {
 		error.setForeground(new Color(204, 0, 0));
 		error.setHorizontalAlignment(SwingConstants.CENTER);
 
-		JLabel menuLabel = new JLabel(Constants.APP_TITLE + " Spielmenü");
+		JLabel menuLabel = new JLabel(Constants.APP_TITLE + " Spielmen\u00fc");
 		menuLabel.setFont(new Font("Sans-serif", Font.PLAIN, 16));
 		menuLabel.setHorizontalAlignment(SwingConstants.CENTER);
 

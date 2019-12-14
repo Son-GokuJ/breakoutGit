@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+import break_out.Constants;
 import break_out.model.Game;
 import break_out.view.Field;
 import break_out.view.StartScreen;
@@ -15,6 +16,7 @@ import break_out.view.View;
  * manipulating the view and updates the model.
  * 
  * @author dmlux, modified by I. Schumacher and I. Traupe
+ * @author modified by 224
  * 
  */
 public class Controller implements ActionListener, KeyListener {
@@ -110,19 +112,63 @@ public class Controller implements ActionListener, KeyListener {
 
 	/**
 	 * This method will be called, after a key was pressed down.
+	 * space bar starts and stops the ball
+	 * a, left arrow moves the nearest paddle to the left 
+	 * d, right arrow moves the nearest paddle to the right 
 	 * @param e The key event
 	 */
 	@Override
 	public void keyPressed(KeyEvent e) {
+		int kp = e.getKeyCode();
+		boolean ap = true; // active paddle true = bottom
+		//test for bottom 
+		if(game.getLevel().getBall().getPosition().getY() > (double)Constants.SCREEN_HEIGHT / 2 - 
+				(double)Constants.BALL_DIAMETER / 2) {
+			ap = true;
+		}else {
+			ap = false;
+		}
 		
+		if(kp == KeyEvent.VK_SPACE) {
+			if(game.getLevel().ballWasStarted()) {
+				game.getLevel().stopBall();
+			}else {
+				game.getLevel().startBall();
+			}
+		}else if(kp == KeyEvent.VK_RIGHT || kp == KeyEvent.VK_D) {
+			if(ap) {
+				game.getLevel().getPaddleBottom().setDirection(1);
+				game.getLevel().getPaddleTop().setDirection(0);
+			}else {
+				game.getLevel().getPaddleTop().setDirection(1);
+				game.getLevel().getPaddleBottom().setDirection(0);
+			}
+		}else if(kp == KeyEvent.VK_LEFT || kp == KeyEvent.VK_A) {
+			if(ap) {
+				game.getLevel().getPaddleBottom().setDirection(-1);
+				game.getLevel().getPaddleTop().setDirection(0);
+			}else {
+				game.getLevel().getPaddleTop().setDirection(-1);
+				game.getLevel().getPaddleBottom().setDirection(0);
+			}
+		}else if(kp == KeyEvent.VK_ESCAPE || kp == KeyEvent.VK_Q) {
+			game.getLevel().setFinished(true);
+			toStartScreen();
+		}
 	}
 
 	/**
 	 * This method will be called, after a key was released.
+	 * If any of the direction keys is released the paddles stop moving
 	 * @param e The key event
 	 */
 	@Override
 	public void keyReleased(KeyEvent e) {
+		int kp = e.getKeyCode();
+		if(kp == KeyEvent.VK_RIGHT || kp == KeyEvent.VK_D || kp == KeyEvent.VK_LEFT || kp == KeyEvent.VK_A) {
+			game.getLevel().getPaddleTop().setDirection(0);
+			game.getLevel().getPaddleBottom().setDirection(0);
+		}
 		
 	}
 

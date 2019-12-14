@@ -19,6 +19,11 @@ public class Paddle implements IPaddle {
 	 */
 	private Position position;
 	
+	/**
+	 * The paddles direction of movement: 
+	 * left -1, stop 0 or right 1
+	 */
+	private int direction = 0;
 
 	/**
 	 * The paddles width, height and color.
@@ -34,6 +39,7 @@ public class Paddle implements IPaddle {
 	public Paddle(Position position) {
 		this.position = position;
 	}
+	
 	
 	/**
 	 * get method for the paddle position
@@ -108,6 +114,38 @@ public class Paddle implements IPaddle {
 	@Override
 	public void setHeight(int height) {
 		this.height = height;
+	}
+
+	/**
+	 * get method for the paddle direction
+	 * @return direction The paddles direction of movement
+	 */
+	public int getDirection() {
+		return this.direction;
+	}
+	
+	/**
+	 * set method for the paddle direction
+	 * @param direction The current direction (-1,0,+1)
+	 */
+	public void setDirection(int direction) {
+		this.direction = direction;
+	}
+
+	
+	/**
+	 * method to move the paddle to its new position
+	 * depending on key input
+	 * @param ball The object isn't used here ;-) 
+	 */
+	@Override
+	public void updatePosition(Ball ball) {
+		if((this.position.getX() <=0 && this.direction == -1) || 
+		   (this.position.getX() + Constants.PADDLE_WIDTH >= Constants.SCREEN_WIDTH && this.direction == 1)) {
+			
+		}else {
+			this.position.setX(position.getX() + this.direction * Constants.DX_MOVEMENT);
+		}
 	}
 
 }

@@ -45,7 +45,12 @@ public class Level extends Thread implements ILevel  {
     /**
      * Flag that shows if the ball was started
      */
-    private boolean ballWasStarted = true;
+    private boolean ballWasStarted = false;
+    
+    /**
+     * finished is set to terminate the current game
+     */
+    private boolean finished = false;
    
     /**
      * The constructor creates a new level object and needs the current game object, 
@@ -102,7 +107,7 @@ public class Level extends Thread implements ILevel  {
     	game.notifyObservers();
     		
     	// endless loop 
-    	while (true) {
+    	while (!finished) {
     		// if ballWasStarted is true, the ball is moving
 	        if (ballWasStarted) {
 	                
@@ -127,7 +132,10 @@ public class Level extends Thread implements ILevel  {
 	        	// Call here the balls method for reacting on hitting the top paddle.
 	            	ball.reflectOnPaddle(paddleTop);
 	            }
-
+	           
+	            //update paddles to check for keypress
+	            paddleTop.updatePosition(ball);
+	            paddleBottom.updatePosition(ball);
 	            
 	            
 	        }
@@ -167,6 +175,16 @@ public class Level extends Thread implements ILevel  {
 	@Override
 	public Paddle getPaddleBottom() {
 		return this.paddleBottom;
+	}
+
+	/**
+	 * set method for the variable finished
+	 * @param finished whether the current game is finished or not
+	 */
+	@Override
+	public void setFinished(boolean finished) {
+		this.finished = finished;
+		
 	}
     
 }

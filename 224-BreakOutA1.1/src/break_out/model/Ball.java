@@ -87,6 +87,7 @@ public class Ball implements IBall {
 	 */
 	public boolean hitsPaddle(Paddle p) {
 		boolean hitsPaddle = false;
+		//test for top paddle
 		if (position.getY() < (double)Constants.SCREEN_HEIGHT / 2 - 
 				(double)Constants.BALL_DIAMETER / 2 && p.getPosition().getY() == 0) {
 			
@@ -98,7 +99,7 @@ public class Ball implements IBall {
 			}
 				
 	
-
+			//test for bottom paddle
 		} else if (position.getY() > (double)Constants.SCREEN_HEIGHT / 2 - 
 				(double)Constants.BALL_DIAMETER / 2 && p.getPosition().getY() != 0) {
 			

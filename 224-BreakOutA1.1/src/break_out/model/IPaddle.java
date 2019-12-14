@@ -13,4 +13,9 @@ public interface IPaddle {
     public void setWidth(int width);
     public int getHeight();
     public void setHeight(int height);
+
+    // Exercise 3
+    public int getDirection();
+    public void setDirection(int direction);
+    public void updatePosition(Ball ball);
 }
