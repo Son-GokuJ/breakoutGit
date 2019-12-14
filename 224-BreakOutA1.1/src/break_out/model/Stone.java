@@ -2,6 +2,16 @@ package break_out.model;
 
 import java.awt.Color;
 
+/**
+ * This class contains the information about the stones characteristics and
+ * behavior
+ * 
+ * @author Group 224
+ * @author Fabian Schinzler
+ * @author Jonas Kremmers
+ *
+ */
+
 public class Stone implements IStone{
 
 	/**
@@ -54,7 +64,7 @@ public class Stone implements IStone{
 	
 	/**
 	 * getter for the stone color
-	 * @return type the stone color
+	 * @return color the stone color
 	 */
 	@Override
 	public Color getColor() {
@@ -63,7 +73,7 @@ public class Stone implements IStone{
 
 	/**
 	 * getter for the stone position
-	 * @return type the stone position
+	 * @return position the stone position
 	 */
 	@Override
 	public Position getPosition() {
@@ -91,7 +101,7 @@ public class Stone implements IStone{
 
 	/**
 	 * setter for the stone value
-	 * @param type the stone value
+	 * @param value the stone value
 	 */
 	@Override
 	public void setValue(int value) {
@@ -100,7 +110,7 @@ public class Stone implements IStone{
 
 	/**
 	 * setter for the stone color
-	 * @param type the stone color
+	 * @param color the stone color
 	 */
 	@Override
 	public void setColor(Color color) {
@@ -109,7 +119,7 @@ public class Stone implements IStone{
 
 	/**
 	 * setter for the stone position
-	 * @param type the stone position
+	 * @param position the stone position
 	 */
 	@Override
 	public void setPosition(Position position) {
