@@ -30,7 +30,7 @@ public class Paddle implements IPaddle {
 	 */
 	private int width = Constants.PADDLE_WIDTH;
 	private int height = Constants.PADDLE_HEIGHT;
-	private Color color;
+	private Color color = Color.WHITE;
 	
 	/**
 	 * The constructor for the paddle.
@@ -141,7 +141,8 @@ public class Paddle implements IPaddle {
 	@Override
 	public void updatePosition(Ball ball) {
 		if((this.position.getX() <=0 && this.direction == -1) || 
-		   (this.position.getX() + Constants.PADDLE_WIDTH >= Constants.SCREEN_WIDTH && this.direction == 1)) {
+		   (this.position.getX() + Constants.PADDLE_WIDTH >= Constants.SCREEN_WIDTH 
+		   && this.direction == 1)) {
 			
 		}else {
 			this.position.setX(position.getX() + this.direction * Constants.DX_MOVEMENT);

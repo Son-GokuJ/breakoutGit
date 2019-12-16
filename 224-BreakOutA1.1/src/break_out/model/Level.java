@@ -64,8 +64,12 @@ public class Level extends Thread implements ILevel  {
     	this.levelnr = levelnr;
     	this.score = score;
         this.ball = new Ball();
-        this.paddleBottom = new Paddle(new Position((Constants.SCREEN_WIDTH - Constants.PADDLE_WIDTH)/2, Constants.SCREEN_HEIGHT - Constants.PADDLE_HEIGHT));
-        this.paddleTop = new Paddle(new Position((Constants.SCREEN_WIDTH - Constants.PADDLE_WIDTH)/2, 0));
+        this.paddleBottom = new Paddle(new Position(
+        		(Constants.SCREEN_WIDTH - Constants.PADDLE_WIDTH)/2, 
+        		Constants.SCREEN_HEIGHT - Constants.PADDLE_HEIGHT));
+        
+        this.paddleTop = new Paddle(new Position(
+        		(Constants.SCREEN_WIDTH - Constants.PADDLE_WIDTH)/2, 0));
         
         loadLevelData(levelnr);
     }
@@ -115,7 +119,7 @@ public class Level extends Thread implements ILevel  {
 	        	ball.updatePosition();
 	            		            	
 	        	// Call here the balls method for reacting on the borders of the playground
-		         ball.reactOnBorder();
+		        ball.reactOnBorder();
 	        	
 	                               
 	            // Tells the observer to repaint the components on the playground

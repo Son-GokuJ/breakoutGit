@@ -122,11 +122,11 @@ public class Controller implements ActionListener, KeyListener {
 		int kp = e.getKeyCode();
 		boolean ap = true; // active paddle true = bottom
 		//test for bottom 
-		if(game.getLevel().getBall().getPosition().getY() > (double)Constants.SCREEN_HEIGHT / 2 - 
-				(double)Constants.BALL_DIAMETER / 2) {
-			ap = true;
+		if(game.getLevel().getBall().getPosition().getY() > 
+			(double)Constants.SCREEN_HEIGHT / 2 - (double)Constants.BALL_DIAMETER / 2) {
+				ap = true;
 		}else {
-			ap = false;
+				ap = false;
 		}
 		
 		if(kp == KeyEvent.VK_SPACE) {
@@ -165,7 +165,9 @@ public class Controller implements ActionListener, KeyListener {
 	@Override
 	public void keyReleased(KeyEvent e) {
 		int kp = e.getKeyCode();
-		if(kp == KeyEvent.VK_RIGHT || kp == KeyEvent.VK_D || kp == KeyEvent.VK_LEFT || kp == KeyEvent.VK_A) {
+		if(kp == KeyEvent.VK_RIGHT || kp == KeyEvent.VK_D || kp == KeyEvent.VK_LEFT || 
+				kp == KeyEvent.VK_A) {
+			
 			game.getLevel().getPaddleTop().setDirection(0);
 			game.getLevel().getPaddleBottom().setDirection(0);
 		}
