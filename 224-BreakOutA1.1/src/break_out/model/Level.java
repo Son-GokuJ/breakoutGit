@@ -110,7 +110,7 @@ public class Level extends Thread implements ILevel  {
     public void run() {	
     	game.notifyObservers();
     		
-    	// endless loop 
+    	// loop depends on state of variable finished 
     	while (!finished) {
     		// if ballWasStarted is true, the ball is moving
 	        if (ballWasStarted) {
