@@ -6,8 +6,7 @@ import break_out.model.Position;
 /**
  * This class represent a two dimensional vector.
  * 
- * @author I. Schumacher
- * @author modified by 224
+ * @author I. Schumacher modified by 224
  */
 public class Vector2D implements IVector2D{
 

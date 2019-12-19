@@ -15,8 +15,7 @@ import break_out.view.View;
  * The controller takes care of the input events and reacts on those events by
  * manipulating the view and updates the model.
  * 
- * @author dmlux, modified by I. Schumacher and I. Traupe
- * @author modified by 224
+ * @author dmlux, modified by I. Schumacher and I. Traupe modified by 224
  * 
  */
 public class Controller implements ActionListener, KeyListener {

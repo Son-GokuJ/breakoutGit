@@ -17,8 +17,7 @@ import net.miginfocom.swing.MigLayout;
 /**
  * This screen serves the configuration of the game.
  * 
- * @author dmlux, modified by I. Schumacher
- * @author modified by 224
+ * @author dmlux, modified by I. Schumacher modified by 224
  * 
  */
 public class StartScreen extends JPanel {

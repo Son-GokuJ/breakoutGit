@@ -14,8 +14,7 @@ import net.miginfocom.swing.MigLayout;
 /**
  * The field represents the board of the game. All components are on the board
  * 
- * @author dmlux, modified by iSchumacher
- * @author modified by 224 
+ * @author dmlux, modified by iSchumacher modified by 224 
  */
 public class Field extends JPanel {
 

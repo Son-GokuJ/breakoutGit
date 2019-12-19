@@ -6,8 +6,7 @@ import break_out.Constants;
  * This class contains information about the running game
  * 
  * @author dmlux
- * @author I. Schumacher
- * @author modified by 224
+ * @author I. Schumacher modified by 224
  */
 public class Level extends Thread implements ILevel  {
 
