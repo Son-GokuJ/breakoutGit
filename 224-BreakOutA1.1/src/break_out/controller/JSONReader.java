@@ -56,7 +56,7 @@ public class JSONReader {
 	/**
 	 * Getter for the stones of the JSON file
 	 * 
-	 * @return The List<List<Long>> of stones
+	 * @return The list of long lists of stones
 	 */
 	public List<List<Long>> getStonesListOfLists() {
 		return rects;
