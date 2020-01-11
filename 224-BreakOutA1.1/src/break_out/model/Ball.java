@@ -1,5 +1,6 @@
 package break_out.model;
 
+import java.awt.Rectangle;
 import java.util.ArrayList;
 
 import break_out.Constants;
@@ -22,6 +23,8 @@ public class Ball implements IBall {
 	 * The balls direction
 	 */
 	private Vector2D direction;
+	
+	private Stone stoneHit;
 
 	/**
 	 * The constructor of a ball The balls position and direction are initialized
@@ -149,14 +152,40 @@ public class Ball implements IBall {
 
 	@Override
 	public boolean hitsStone(ArrayList<Stone> stones) {
-		// TODO Auto-generated method stub
+		for(Stone stone : stones) {
+			if(position.getX() + Constants.BALL_DIAMETER >= stone.getPosition().getX() && //hitbox without gaps
+			   position.getX() <= stone.getPosition().getX() +(Constants.SCREEN_WIDTH / Constants.SQUARES_X) &&
+			   position.getY() + Constants.BALL_DIAMETER >= stone.getPosition().getY() &&
+			   position.getY() <= stone.getPosition().getY() +(Constants.SCREEN_HEIGHT / Constants.SQUARES_Y)) {
+				
+				this.stoneHit = stone;
+				return true;
+			}
+				
+		}
 		return false;
 	}
-
+	
+	/**
+	 * Getter for the stones already hit.
+	 * @return the Stone object
+	 */
 	@Override
 	public Stone getHitStone() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.stoneHit;
+	}
+	
+	public void reflectOnStone(Rectangle ballRect, Rectangle stoneRect) {
+		Rectangle common = stoneRect.intersection(ballRect);
+		if(common.getHeight() > common.getWidth()) {  //hitting the stone from the side
+			direction.setDx(direction.getDx() *-1);
+		}else if(common.getHeight() < common.getWidth()) {
+			direction.setDy(direction.getDy() *-1);
+		}else {
+			direction.setDy(direction.getDy() *-1);
+			direction.setDx(direction.getDx() *-1);
+		}
+		
 	}
 
 }

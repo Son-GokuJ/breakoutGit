@@ -1,7 +1,12 @@
 package break_out.model;
+import java.awt.AWTException;
+import java.awt.Rectangle;
 import java.util.ArrayList;
 import break_out.Constants;
+import break_out.controller.Controller;
 import break_out.controller.JSONReader;
+import java.awt.Robot;
+import java.awt.event.KeyEvent;
 
 /**
  * This class contains information about the running game
@@ -146,6 +151,33 @@ public class Level extends Thread implements ILevel  {
 	        	// Call here the balls method for reacting on hitting the top paddle.
 	            	ball.reflectOnPaddle(paddleTop);
 	            }
+	            
+	            // Test for hitting any stones
+	            if(ball.hitsStone(stones)) {
+	            	Rectangle ballRect = new Rectangle((int) ball.getPosition().getX(), (int) ball.getPosition().getY(),
+	            										Constants.BALL_DIAMETER, Constants.BALL_DIAMETER);
+	            	Rectangle stoneRect = new Rectangle((int) ball.getHitStone().getPosition().getX(), (int) ball.getHitStone().getPosition().getY(),
+	            										(Constants.SCREEN_WIDTH / Constants.SQUARES_X) -3,
+	            										(Constants.SCREEN_HEIGHT / Constants.SQUARES_Y) -3);
+	            	ball.reflectOnStone(ballRect, stoneRect);
+	            	updateStonesAndScore();
+	            	
+	            	if(allStonesBroken()) {
+	            		setFinished(true);
+	            		Robot robot;
+						try {
+							robot = new Robot();
+							
+	            		robot.keyPress(KeyEvent.VK_Q);
+	            		robot.keyRelease(KeyEvent.VK_Q);
+						} catch (AWTException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+	            	}
+	            }
+	            
+	            
 	           
 	            //update paddles to check for keypress
 	            paddleTop.updatePosition(ball);
@@ -212,6 +244,19 @@ public class Level extends Thread implements ILevel  {
 		ArrayList<Stone> stonescopy = new ArrayList<>();
 		stonescopy.addAll(stones);
 		return stonescopy;
+	}
+	
+	private void updateStonesAndScore() {
+		this.score += ball.getHitStone().getValue();
+		if(ball.getHitStone().getType() -1 > 0) {
+			ball.getHitStone().setType(ball.getHitStone().getType() -1);
+		}else {
+			this.stones.remove(ball.getHitStone());
+		}
+	}
+	
+	private boolean allStonesBroken() {
+		return this.stones.size() ==0;
 	}
 
 	/**
