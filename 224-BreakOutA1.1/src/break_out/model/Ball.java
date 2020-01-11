@@ -1,5 +1,7 @@
 package break_out.model;
 
+import java.util.ArrayList;
+
 import break_out.Constants;
 
 /**
@@ -143,6 +145,18 @@ public class Ball implements IBall {
 			this.direction = new Vector2D(offset, current);
 			direction.rescale();
 		}
+	}
+
+	@Override
+	public boolean hitsStone(ArrayList<Stone> stones) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public Stone getHitStone() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

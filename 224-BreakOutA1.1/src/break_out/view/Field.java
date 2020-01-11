@@ -9,6 +9,7 @@ import java.awt.RenderingHints;
 import javax.swing.JPanel;
 
 import break_out.Constants;
+import break_out.model.Stone;
 import net.miginfocom.swing.MigLayout;
 
 /**
@@ -169,8 +170,10 @@ public class Field extends JPanel {
 	private void drawStones(Graphics2D g2) {
 		for(Stone stone : view.getGame().getLevel().getStones()) {
 			g2.setColor(stone.getColor());
-			g2.fillRoundRect((int) stone.getPosition().getX() + 2, (int) stone.getPosition().getY() + 2, 
-					Constants.SCREEN_WIDTH / Constants.SQUARES_X - 4, Constants.SCREEN_HEIGHT / Constants.SQUARES_Y - 4, 3, 3);
+			g2.fillRoundRect((int) stone.getPosition().getX() + 2, 
+					(int) stone.getPosition().getY() + 2, 
+					Constants.SCREEN_WIDTH / Constants.SQUARES_X - 3, 
+					Constants.SCREEN_HEIGHT / Constants.SQUARES_Y - 3, 3, 3);
 		}
 	}
 

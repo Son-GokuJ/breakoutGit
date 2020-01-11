@@ -1,6 +1,7 @@
 package break_out.model;
 import java.util.ArrayList;
 import break_out.Constants;
+import break_out.controller.JSONReader;
 
 /**
  * This class contains information about the running game
