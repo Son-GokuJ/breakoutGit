@@ -124,6 +124,9 @@ public class Field extends JPanel {
 		g2.setColor(view.getGame().getLevel().getPaddleBottom().getColor());
 		//Calls the method for drawing the bottom paddle
 		drawPaddleBottom(g2);
+		
+		//Calls the method for drawing the stone-matrix
+		drawStones(g2);
 	}
 
 	/**
@@ -161,6 +164,14 @@ public class Field extends JPanel {
 				(int) view.getGame().getLevel().getPaddleTop().getPosition().getY(),
 				(int) view.getGame().getLevel().getPaddleTop().getWidth(),
 				(int) view.getGame().getLevel().getPaddleTop().getHeight(),15,15);
+	}
+	
+	private void drawStones(Graphics2D g2) {
+		for(Stone stone : view.getGame().getLevel().getStones()) {
+			g2.setColor(stone.getColor());
+			g2.fillRoundRect((int) stone.getPosition().getX() + 2, (int) stone.getPosition().getY() + 2, 
+					Constants.SCREEN_WIDTH / Constants.SQUARES_X - 4, Constants.SCREEN_HEIGHT / Constants.SQUARES_Y - 4, 3, 3);
+		}
 	}
 
 }

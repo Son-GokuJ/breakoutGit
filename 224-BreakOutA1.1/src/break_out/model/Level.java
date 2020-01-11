@@ -1,5 +1,5 @@
 package break_out.model;
-
+import java.util.ArrayList;
 import break_out.Constants;
 
 /**
@@ -14,11 +14,21 @@ public class Level extends Thread implements ILevel  {
      * The game to which the level belongs 
      */
     private Game game;
+    
+    /**
+     * The list of stones in this level.
+     */
+    private ArrayList<Stone> stones = new ArrayList<Stone>();
 	 
     /**
    	 * The number of the level
    	 */
     private int levelnr;
+    
+    /**
+     * The players lifes
+     */
+    private int lifes;
        
     /**
 	 * The score of the level
@@ -157,7 +167,19 @@ public class Level extends Thread implements ILevel  {
     * @param levelnr The number X for the LevelX.json file
     */
     private void loadLevelData(int levelnr) {
-    			
+    		JSONReader reader = new JSONReader("res/Level" + levelnr + ".json");
+    		int[][] stoneTypes = reader.getStones2DArray();
+    		this.lifes = reader.getLifeCounter();
+    		for(int y = 0; y < Constants.SQUARES_Y; y++) {
+    			for(int x = 0; x < Constants.SQUARES_X; x++) {
+    				if(stoneTypes[y][x] != 0) {
+    					Position stonePosition = new Position((Constants.SCREEN_WIDTH / Constants.SQUARES_X)*x,
+    														  (Constants.SCREEN_HEIGHT / Constants.SQUARES_Y)*y);
+    					Stone stone = new Stone(stoneTypes[y][x], stonePosition);
+    					stones.add(stone);
+    				}
+    			}
+    		}
     }
 
     
@@ -178,6 +200,17 @@ public class Level extends Thread implements ILevel  {
 	@Override
 	public Paddle getPaddleBottom() {
 		return this.paddleBottom;
+	}
+	
+	/**
+	 * The getter for the list of stones
+	 * @return stones The list of stones
+	 * */
+	
+	public ArrayList<Stone> getStones(){
+		ArrayList<Stone> stonescopy = new ArrayList<>();
+		stonescopy.addAll(stones);
+		return stonescopy;
 	}
 
 	/**
