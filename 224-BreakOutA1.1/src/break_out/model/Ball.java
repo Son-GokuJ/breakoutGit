@@ -150,6 +150,11 @@ public class Ball implements IBall {
 		}
 	}
 
+	/**
+	 * method to find stones that are hit by the ball
+	 * @param stones The List containing all the stones in the level
+	 * @return true if a stone is hit
+	 */
 	@Override
 	public boolean hitsStone(ArrayList<Stone> stones) {
 		for(Stone stone : stones) {
@@ -175,6 +180,11 @@ public class Ball implements IBall {
 		return this.stoneHit;
 	}
 	
+	/**
+	 * Method sets the new direction for the ball, when hitting a stone
+	 * @param ballRect the hitbox of the ball
+	 * @param stoneRect the hitbox of the stone
+	 */
 	public void reflectOnStone(Rectangle ballRect, Rectangle stoneRect) {
 		Rectangle common = stoneRect.intersection(ballRect);
 		if(common.getHeight() > common.getWidth()) {  //hitting the stone from the side

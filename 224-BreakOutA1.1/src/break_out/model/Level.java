@@ -163,6 +163,7 @@ public class Level extends Thread implements ILevel  {
 	            	updateStonesAndScore();
 	            	
 	            	if(allStonesBroken()) {
+	            		//going back to the startscreen
 	            		setFinished(true);
 	            		Robot robot;
 						try {
@@ -239,13 +240,16 @@ public class Level extends Thread implements ILevel  {
 	 * The getter for the list of stones
 	 * @return stones The list of stones
 	 * */
-	
 	public ArrayList<Stone> getStones(){
 		ArrayList<Stone> stonescopy = new ArrayList<>();
 		stonescopy.addAll(stones);
 		return stonescopy;
 	}
-	
+
+	/**
+	 * This method changes the stone type, when they are hit
+	 * and counts the score for all the stones hit
+	 */
 	private void updateStonesAndScore() {
 		this.score += ball.getHitStone().getValue();
 		if(ball.getHitStone().getType() -1 > 0) {
@@ -254,7 +258,10 @@ public class Level extends Thread implements ILevel  {
 			this.stones.remove(ball.getHitStone());
 		}
 	}
-	
+
+	/**
+	 * This method removes all the stones once they are hit
+	 */
 	private boolean allStonesBroken() {
 		return this.stones.size() ==0;
 	}
