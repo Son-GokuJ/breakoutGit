@@ -146,6 +146,12 @@ public class Paddle implements IPaddle {
 			
 		}else {
 			this.position.setX(position.getX() + this.direction * Constants.DX_MOVEMENT);
+			if(position.getX() < 0) {
+				position.setX(0);
+			}
+			if(position.getX() + Constants.PADDLE_WIDTH > Constants.SCREEN_WIDTH) {
+				position.setX(Constants.SCREEN_WIDTH - Constants.PADDLE_WIDTH);
+			}
 		}
 	}
 
