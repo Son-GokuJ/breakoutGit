@@ -26,6 +26,9 @@ public class Ball implements IBall {
 	
 	private Stone stoneHit;
 
+	//TODO : neue Variable für Status
+	private boolean lost = false;
+
 	/**
 	 * The constructor of a ball The balls position and direction are initialized
 	 * here. Startingpoint is the center on the bottom paddle. Direction is affected
@@ -66,6 +69,7 @@ public class Ball implements IBall {
 		position.setY(position.getY() + direction.getDy());
 	}
 
+	//TODO : lost-Variable gesetzt
 	/**
 	 * Determining border contact and reversing vector direction accordingly
 	 */
@@ -73,17 +77,16 @@ public class Ball implements IBall {
 		if (position.getX() >= Constants.SCREEN_WIDTH - Constants.BALL_DIAMETER) {
 			direction.setDx(-1 * direction.getDx());
 			position.setX(Constants.SCREEN_WIDTH - Constants.BALL_DIAMETER);
+			lost = false;
 		} else if (position.getY() <= 0) {
-			direction.setDy(-1 * direction.getDy());
-			position.setY(0);
+			lost = true;
 		} else if (position.getX() <= 0) {
 			direction.setDx(-1 * direction.getDx());
 			position.setX(0);
+			lost = false;
 		} else if (position.getY() >= Constants.SCREEN_HEIGHT - Constants.BALL_DIAMETER) {
-			direction.setDy(-1 * direction.getDy());
-			position.setY(Constants.SCREEN_HEIGHT - Constants.BALL_DIAMETER);
+			lost = true;
 		}
-
 	}
 
 	/**
@@ -166,7 +169,6 @@ public class Ball implements IBall {
 				this.stoneHit = stone;
 				return true;
 			}
-				
 		}
 		return false;
 	}
@@ -195,7 +197,11 @@ public class Ball implements IBall {
 			direction.setDy(direction.getDy() *-1);
 			direction.setDx(direction.getDx() *-1);
 		}
-		
 	}
 
+	//TODO : neue Methode, simpler Getter (globale Variable)
+	@Override
+	public boolean isLost() {
+		return lost;
+	}
 }

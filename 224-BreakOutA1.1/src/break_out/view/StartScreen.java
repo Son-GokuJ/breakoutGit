@@ -195,4 +195,10 @@ public class StartScreen extends JPanel {
 		error.setText("");
 	}
 
+	public void loadScore(int score) {
+		JLabel result = new JLabel(getPlayersName() + "      " + score);
+		result.setFont(new Font("Calibri", Font.PLAIN, 20));
+		result.setHorizontalAlignment(SwingConstants.CENTER);
+		((SectionPanel)this.getComponent(1)).add(result, "cell 0 1, gaptop 10");
+	}
 }

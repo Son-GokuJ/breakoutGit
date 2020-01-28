@@ -1,10 +1,6 @@
 package break_out.view;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
+import java.awt.*;
 
 import javax.swing.JPanel;
 
@@ -128,6 +124,12 @@ public class Field extends JPanel {
 		
 		//Calls the method for drawing the stone-matrix
 		drawStones(g2);
+
+		// TODO : neue Aufrufe
+		g2.setColor(Color.BLACK);
+		g2.setFont(new Font("Calibri", Font.BOLD, 35));
+		drawScore(g2);
+		drawLives(g2);
 	}
 
 	/**
@@ -166,7 +168,8 @@ public class Field extends JPanel {
 				(int) view.getGame().getLevel().getPaddleTop().getWidth(),
 				(int) view.getGame().getLevel().getPaddleTop().getHeight(),15,15);
 	}
-	
+
+	// TODO : JAVA-DOC Comment!!!
 	private void drawStones(Graphics2D g2) {
 		for(Stone stone : view.getGame().getLevel().getStones()) {
 			g2.setColor(stone.getColor());
@@ -177,4 +180,17 @@ public class Field extends JPanel {
 		}
 	}
 
+	// TODO : task 5.2
+	private void drawScore(Graphics2D g2){
+		g2.drawString("Score: " + Integer.toString(view.getGame().getLevel().getScore()),
+				Constants.SCREEN_WIDTH - 5 * Constants.SCREEN_WIDTH / Constants.SQUARES_X,
+				3 * Constants.SCREEN_HEIGHT / Constants.SQUARES_Y);
+	}
+
+	// TODO : task 5.2
+	private void drawLives(Graphics2D g2){
+		g2.drawString("Lives: " + Integer.toString(view.getGame().getLevel().getLives()),
+				2 * Constants.SCREEN_WIDTH / Constants.SQUARES_X,
+				3 * Constants.SCREEN_HEIGHT / Constants.SQUARES_Y);
+	}
 }

@@ -152,7 +152,7 @@ public class Controller implements ActionListener, KeyListener {
 			}
 		}else if(kp == KeyEvent.VK_ESCAPE || kp == KeyEvent.VK_Q) {
 			game.getLevel().setFinished(true);
-			toStartScreen();
+			toStartScreen(game.getLevel().getScore()); // TODO : Edited for task 5.4
 		}
 	}
 
@@ -173,12 +173,14 @@ public class Controller implements ActionListener, KeyListener {
 		
 	}
 
+	// TODO : Angepasst for task 5.4
 	/**
 	 * This method switches the view to the StartScreen view.
 	 */
-	public void toStartScreen() {
+	public void toStartScreen(int score) {
 		view.showScreen(StartScreen.class.getName());
 		view.getStartScreen().requestFocusInWindow();
+		view.getStartScreen().loadScore(score);
 	}
 
 	/**

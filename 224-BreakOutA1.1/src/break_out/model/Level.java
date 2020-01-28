@@ -32,9 +32,9 @@ public class Level extends Thread implements ILevel  {
     private int levelnr;
     
     /**
-     * The players lifes
+     * The players lives
      */
-    private int lifes;
+    private int lives;
        
     /**
 	 * The score of the level
@@ -45,7 +45,6 @@ public class Level extends Thread implements ILevel  {
      * The ball of the level
      */
     private Ball ball;
-    
     
     /**
      * The paddle at the bottom
@@ -135,10 +134,6 @@ public class Level extends Thread implements ILevel  {
 	            		            	
 	        	// Call here the balls method for reacting on the borders of the playground
 		        ball.reactOnBorder();
-	        	
-	                               
-	            // Tells the observer to repaint the components on the playground
-	            game.notifyObservers();  
 	            
 	            // Test for hitting the bottom paddle
 	            if (ball.hitsPaddle(paddleBottom)) {
@@ -151,7 +146,8 @@ public class Level extends Thread implements ILevel  {
 	        	// Call here the balls method for reacting on hitting the top paddle.
 	            	ball.reflectOnPaddle(paddleTop);
 	            }
-	            
+
+	            // TODO : Geändert allStonesBroken-Block ausgelagert und umgewandelt
 	            // Test for hitting any stones
 	            if(ball.hitsStone(stones)) {
 	            	Rectangle ballRect = new Rectangle((int) ball.getPosition().getX(), (int) ball.getPosition().getY(),
@@ -161,30 +157,25 @@ public class Level extends Thread implements ILevel  {
 	            										(Constants.SCREEN_HEIGHT / Constants.SQUARES_Y) -3);
 	            	ball.reflectOnStone(ballRect, stoneRect);
 	            	updateStonesAndScore();
-	            	
-	            	if(allStonesBroken()) {
-	            		//going back to the startscreen
-	            		setFinished(true);
-	            		Robot robot;
-						try {
-							robot = new Robot();
-							
-	            		robot.keyPress(KeyEvent.VK_Q);
-	            		robot.keyRelease(KeyEvent.VK_Q);
-						} catch (AWTException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-	            	}
 	            }
-	            
-	            
+
+	            // TODO : neue Abfrage für Levelwechsel
+	            if(allStonesBroken()){
+	            	setFinished(true);
+	            	game.createLevel(levelnr + 1, score);
+				}
+
+	            // TODO : neue Abfrage mit Aufruf
+	            if(ball.isLost()){
+	            	decreaseLives();
+				}
 	           
 	            //update paddles to check for keypress
 	            paddleTop.updatePosition(ball);
 	            paddleBottom.updatePosition(ball);
-	            
-	            
+
+				// Tells the observer to repaint the components on the playground
+				game.notifyObservers();
 	        }
 	        // The thread pauses for a short time 
 	        try {
@@ -195,15 +186,17 @@ public class Level extends Thread implements ILevel  {
 	        
     	}   
     }
-    
+
+    // TODO : Pfad für Windows geändert!!!!!!!!!!!!!!!!!!
     /**
     * Loads the information for the level from a json-file located in the folder /res of the project
     * @param levelnr The number X for the LevelX.json file
     */
     private void loadLevelData(int levelnr) {
-    		JSONReader reader = new JSONReader("res/Level" + levelnr + ".json");
+    		//JSONReader reader = new JSONReader("/res/Level" + levelnr + ".json");
+    		JSONReader reader = new JSONReader("C:\\Users\\SchnitzelDöner\\IdeaProjects\\breakoutGit\\224-BreakOutA1.1\\res\\Level" + levelnr + ".json");
     		int[][] stoneTypes = reader.getStones2DArray();
-    		this.lifes = reader.getLifeCounter();
+    		this.lives = reader.getLifeCounter();
     		for(int y = 0; y < Constants.SQUARES_Y; y++) {
     			for(int x = 0; x < Constants.SQUARES_X; x++) {
     				if(stoneTypes[y][x] != 0) {
@@ -273,9 +266,44 @@ public class Level extends Thread implements ILevel  {
 	@Override
 	public void setFinished(boolean finished) {
 		this.finished = finished;
-		
 	}
-    
+
+	// TODO : neue Getter für 5.2
+	public int getScore() {
+		return score;
+	}
+
+	public int getLives() {
+		return lives;
+	}
+
+	//TODO : neue Methode für Änderung der lives
+	public void decreaseLives(){
+		if(lives > 1){
+			lives--;
+			paddleBottom.setPosition(new Position(
+					(Constants.SCREEN_WIDTH - Constants.PADDLE_WIDTH)/2,
+					Constants.SCREEN_HEIGHT - Constants.PADDLE_HEIGHT));
+
+			paddleTop.setPosition(new Position(
+					(Constants.SCREEN_WIDTH - Constants.PADDLE_WIDTH)/2, 0));
+
+			ball = new Ball();
+			ballWasStarted = false;
+		}else{
+			// TODO : kopiert aus run() from task 4
+			//going back to the startscreen
+			setFinished(true);
+			Robot robot;
+			try {
+				robot = new Robot();
+				robot.keyPress(KeyEvent.VK_Q);
+				robot.keyRelease(KeyEvent.VK_Q);
+			} catch (AWTException e) {
+				e.printStackTrace();
+			}
+		}
+	}
 }
     
 

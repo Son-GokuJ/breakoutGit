@@ -32,12 +32,12 @@ public class Game {
 	/**
 	 * The first levelnumber
 	 */
-	private int firstLevel = 1;
+	private int firstLevel = 0;
 
 	/**
 	 * The last levelnumber
 	 */
-	private int maxLevel = 1;
+	private int maxLevel = 3;
 
 	/**
 	 * The total score of the game
@@ -118,10 +118,7 @@ public class Game {
 			controller.toPlayground();
 		} else {
 			// tells the controller to switch to the startScreen of the game
-			controller.toStartScreen();
-
+			controller.toStartScreen(level.getScore()); // TODO : Edited for task 5.4
 		}
-
 	}
-
 }

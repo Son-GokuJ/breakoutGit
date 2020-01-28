@@ -17,5 +17,8 @@ public interface IBall {
     // Exercise 4
     public boolean hitsStone(ArrayList<Stone> stones);
     public Stone getHitStone();
+
+    // Exercise 5
+    public boolean isLost();
 }
 
