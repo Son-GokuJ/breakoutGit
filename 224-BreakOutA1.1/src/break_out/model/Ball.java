@@ -188,7 +188,7 @@ public class Ball implements IBall {
 	 * @param stoneRect the hitbox of the stone
 	 */
 	public void reflectOnStone(Rectangle ballRect, Rectangle stoneRect) {
-		Rectangle common = stoneRect.intersection(ballRect);
+		Rectangle common = ballRect.intersection(stoneRect);
 		if(common.getHeight() > common.getWidth()) {  //hitting the stone from the side
 			direction.setDx(direction.getDx() *-1);
 		}else if(common.getHeight() < common.getWidth()) {
