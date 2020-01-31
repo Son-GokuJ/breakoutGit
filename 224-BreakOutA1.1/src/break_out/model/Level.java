@@ -147,7 +147,6 @@ public class Level extends Thread implements ILevel  {
 	            	ball.reflectOnPaddle(paddleTop);
 	            }
 
-	            // TODO : Geändert allStonesBroken-Block ausgelagert und umgewandelt
 	            // Test for hitting any stones
 	            if(ball.hitsStone(stones)) {
 	            	Rectangle ballRect = new Rectangle((int) ball.getPosition().getX(), (int) ball.getPosition().getY(),
@@ -194,8 +193,8 @@ public class Level extends Thread implements ILevel  {
     * @param levelnr The number X for the LevelX.json file
     */
     private void loadLevelData(int levelnr) {
-    		//JSONReader reader = new JSONReader("./res/Level" + levelnr + ".json");
-    		JSONReader reader = new JSONReader("C:\\Users\\SchnitzelDöner\\IdeaProjects\\breakoutGit\\224-BreakOutA1.1\\res\\Level" + levelnr + ".json");
+    		JSONReader reader = new JSONReader("./res/Level" + levelnr + ".json");
+    		//JSONReader reader = new JSONReader("C:\\Users\\SchnitzelDöner\\IdeaProjects\\breakoutGit\\224-BreakOutA1.1\\res\\Level" + levelnr + ".json");
     		int[][] stoneTypes = reader.getStones2DArray();
     		this.lives = reader.getLifeCounter();
     		for(int y = 0; y < Constants.SQUARES_Y; y++) {
@@ -307,15 +306,6 @@ public class Level extends Thread implements ILevel  {
 			setFinished(true);
 
 		}
-	}
-//TODO check if necesarry 
-	/**
-	 * Getter for the status of the level
-	 * by the variable finished
-	 * @return finished The boolean safed in finished
-	 */
-	public boolean getFinished() {
-		return finished;
 	}
 }
     

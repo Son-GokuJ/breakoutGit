@@ -245,12 +245,13 @@ public class Controller extends Thread implements ActionListener, KeyListener {
 		
 	}
 
-	// TODO
+	/**
+	 * This thread is needed in the coop mode
+	 * to be able to move both paddles at the same time
+	 */
 	public void run(){
 		try{
 			while(true){
-				finished = view.getGame().getLevel().getFinished(); // TODO : Regelmäßiges Update der Thread-Status-Variablen
-
 				if(lefttop && leftbottom){
 					game.getLevel().getPaddleTop().setDirection(-1);
 					game.getLevel().getPaddleBottom().setDirection(-1);
@@ -284,7 +285,7 @@ public class Controller extends Thread implements ActionListener, KeyListener {
 					}
 				}
 				Thread.sleep(2);
-				// TODO : Thread wird schlafen geschickt, bis sich Thread-Status-Variable ändert
+				// Thread wird schlafen geschickt, bis sich Thread-Status-Variable ändert
 				/*
 				* äußere while darf nie beendet werden, da damit der Thread stirbt
 				* -> keine Argumente die einen break hervorrufen können
@@ -294,7 +295,6 @@ public class Controller extends Thread implements ActionListener, KeyListener {
 				* */
 				while(finished){
 					Thread.sleep(100);
-					// System.out.print("s"); TODO : Test wann Standby-Status aktiv
 				}
 			}
 		}catch(Exception e){

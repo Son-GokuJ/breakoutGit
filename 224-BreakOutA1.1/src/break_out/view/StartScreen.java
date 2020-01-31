@@ -224,7 +224,6 @@ public class StartScreen extends JPanel {
 		error.setText("");
 	}
 
-	// TODO : Methode zum Anzeigen des Scores
 	
 
 	/**
