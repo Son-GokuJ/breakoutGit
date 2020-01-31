@@ -38,7 +38,7 @@ public class Field extends JPanel {
 		super();
 
 		this.view = view;
-		this.background = new Color(177, 92, 107);
+		this.background = Constants.BACKGROUND;
 
 		setFocusable(true);
 

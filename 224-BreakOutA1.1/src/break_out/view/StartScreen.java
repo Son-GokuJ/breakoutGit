@@ -12,6 +12,7 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 import break_out.Constants;
+import break_out.controller.Controller;
 import net.miginfocom.swing.MigLayout;
 
 /**
@@ -51,6 +52,9 @@ public class StartScreen extends JPanel {
 	 * The error label
 	 */
 	private JLabel error;
+
+	// TODO
+	private JButton coop;
 
 	
 	/**
@@ -102,6 +106,7 @@ public class StartScreen extends JPanel {
 		// adding components to the layout
 		startGame = new JButton("Spiel starten");
 		quitGame = new JButton("Spiel beenden");
+		coop = new JButton("Coop starten");
 		playersName = new JTextField();
 
 		error = new JLabel("");
@@ -117,7 +122,8 @@ public class StartScreen extends JPanel {
 		leftMenu.add(playersName, "cell 0 2, growx");
 		leftMenu.add(startGame, "cell 0 3, growx");
 		leftMenu.add(quitGame, "cell 0 4, growx");
-		leftMenu.add(error, "cell 0 5, growx");
+		leftMenu.add(coop, "cell 0 5, growx");
+		leftMenu.add(error, "cell 0 6, growx");
 		add(leftMenu, "cell 0 0");
 	}
 
@@ -210,5 +216,13 @@ public class StartScreen extends JPanel {
 		}else{
 			((SectionPanel)this.getComponent(1)).add(result, "cell 0 " + plays + ", gaptop 10");
 		}
+		this.repaint();
+	}
+
+	public void addActionListenerToCoopButton(ActionListener l) {
+		coop.addActionListener(l);
+	} //TODO
+	public JButton getCoop(){
+		return coop;
 	}
 }

@@ -293,16 +293,21 @@ public class Level extends Thread implements ILevel  {
 		}else{
 			// TODO : kopiert aus run() from task 4
 			//going back to the startscreen
+			game.getController().toStartScreen(score);
 			setFinished(true);
-			Robot robot;
-			try {
-				robot = new Robot();
-				robot.keyPress(KeyEvent.VK_Q);
-				robot.keyRelease(KeyEvent.VK_Q);
-			} catch (AWTException e) {
-				e.printStackTrace();
-			}
+//			Robot robot;
+//			try {
+//				robot = new Robot();
+//				robot.keyPress(KeyEvent.VK_Q);
+//				robot.keyRelease(KeyEvent.VK_Q);
+//			} catch (AWTException e) {
+//				e.printStackTrace();
+//			}
 		}
+	}
+
+	public boolean getFinished() {
+		return finished;
 	}
 }
     

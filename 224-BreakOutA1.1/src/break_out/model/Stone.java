@@ -34,13 +34,13 @@ public class Stone implements IStone{
 		
 		if(type == 1) {
 			this.value = 5;
-			this.color = Color.darkGray;
+			this.color = Color.black;
 		}else if(type == 2) {
 			this.value = 10;
-			this.color = Color.blue;
+			this.color = Color.yellow;
 		}else if(type == 3) {
 			this.value = 15;
-			this.color = Color.red;
+			this.color = new Color(123, 6, 45);
 		}
 	}
 	
@@ -89,13 +89,13 @@ public class Stone implements IStone{
 		this.type = type;
 		if(type == 1) {
 			this.value = 5;
-			this.color = Color.darkGray;
+			this.color = Color.black;
 		}else if(type == 2) {
 			this.value = 10;
-			this.color = Color.blue;
+			this.color = Color.yellow;
 		}else if(type == 3) {
 			this.value = 15;
-			this.color = Color.red;
+			this.color = new Color(123, 6, 45);
 		}
 	}
 

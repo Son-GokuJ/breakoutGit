@@ -18,7 +18,7 @@ import break_out.view.View;
  * @author dmlux, modified by I. Schumacher and I. Traupe modified by 224
  * 
  */
-public class Controller implements ActionListener, KeyListener {
+public class Controller extends Thread implements ActionListener, KeyListener {
 
 	/**
 	 * The game as model that is connected to this controller
@@ -29,6 +29,12 @@ public class Controller implements ActionListener, KeyListener {
 	 * The view that is connected to this controller
 	 */
 	private View view;
+	private int mode;
+	private boolean leftbottom = false;
+	private boolean rightbottom = false;
+	private boolean lefttop = false;
+	private boolean righttop = false;
+	private boolean finished = false;
 
 	/**
 	 * The constructor expects a view to construct itself.
@@ -54,6 +60,7 @@ public class Controller implements ActionListener, KeyListener {
 		// listener to the buttons.
 		view.getStartScreen().addActionListenerToStartButton(this);
 		view.getStartScreen().addActionListenerToQuitButton(this);
+		view.getStartScreen().addActionListenerToCoopButton(this);
 	}
 
 	/**
@@ -63,6 +70,31 @@ public class Controller implements ActionListener, KeyListener {
 	private void assignKeyListener() {
 		// Get the field to add this controller as KeyListener
 		view.getField().addKeyListener(this);
+		if(mode == 3){
+			view.getField().addKeyListener(new KeyListener() {
+
+				@Override
+				public void keyTyped(KeyEvent e) {
+
+				}
+
+				@Override
+				public void keyPressed(KeyEvent e) {
+					int kp = e.getKeyCode();
+					if(kp == KeyEvent.VK_A){
+						game.getLevel().getPaddleTop().setDirection(-1);
+					}else if(kp == KeyEvent.VK_D){
+						game.getLevel().getPaddleTop().setDirection(1);
+					}
+				}
+
+				@Override
+				public void keyReleased(KeyEvent e) {
+
+				}
+			});
+		}
+
 	}
 
 	/**
@@ -79,6 +111,7 @@ public class Controller implements ActionListener, KeyListener {
 		// source ... or simple: The user clicked this particular button.
 		if (startScreen.getStartButton().equals(e.getSource())) {
 			// The players name of the input field in the start window
+			mode = 1;
 			String playersName = startScreen.getPlayersName();
 			playersName = playersName.trim();
 			if (playersName.length() < 1) {
@@ -90,6 +123,26 @@ public class Controller implements ActionListener, KeyListener {
 				game = new Game(this);
 				// ... and tell the view to set this new game object.
 				view.setGame(game);
+			}
+		}
+		// TODO
+		else if(startScreen.getCoop().equals(e.getSource())){
+			interrupt();
+			mode = 2;
+			String playersName = startScreen.getPlayersName();
+			playersName = playersName.trim();
+			if (playersName.length() < 1) {
+				// If the players name is too short, we won't accept this and display an error
+				// message
+				startScreen.showError("Der Name ist ungültig");
+			} else {
+				// If everything is fine we can go on and create a new game.
+				game = new Game(this);
+				// ... and tell the view to set this new game object.
+				view.setGame(game);
+			}
+			if(!Thread.currentThread().isAlive()){
+				start();
 			}
 		}
 
@@ -117,7 +170,7 @@ public class Controller implements ActionListener, KeyListener {
 	 * @param e The key event
 	 */
 	@Override
-	public void keyPressed(KeyEvent e) {
+	public synchronized void keyPressed(KeyEvent e) {
 		int kp = e.getKeyCode();
 		boolean ap = true; // active paddle true = bottom
 		//test for bottom 
@@ -134,7 +187,7 @@ public class Controller implements ActionListener, KeyListener {
 			}else {
 				game.getLevel().startBall();
 			}
-		}else if(kp == KeyEvent.VK_RIGHT || kp == KeyEvent.VK_D) {
+		}else if((kp == KeyEvent.VK_RIGHT || kp == KeyEvent.VK_D) && mode == 1){
 			if(ap) {
 				game.getLevel().getPaddleBottom().setDirection(1);
 				game.getLevel().getPaddleTop().setDirection(0);
@@ -142,7 +195,7 @@ public class Controller implements ActionListener, KeyListener {
 				game.getLevel().getPaddleTop().setDirection(1);
 				game.getLevel().getPaddleBottom().setDirection(0);
 			}
-		}else if(kp == KeyEvent.VK_LEFT || kp == KeyEvent.VK_A) {
+		}else if((kp == KeyEvent.VK_LEFT || kp == KeyEvent.VK_A) && mode == 1){
 			if(ap) {
 				game.getLevel().getPaddleBottom().setDirection(-1);
 				game.getLevel().getPaddleTop().setDirection(0);
@@ -152,7 +205,18 @@ public class Controller implements ActionListener, KeyListener {
 			}
 		}else if(kp == KeyEvent.VK_ESCAPE || kp == KeyEvent.VK_Q) {
 			game.getLevel().setFinished(true);
+			finished = true;
 			toStartScreen(game.getLevel().getScore()); // TODO : Edited for task 5.4
+		}else if(mode == 2){
+			if(kp == KeyEvent.VK_LEFT){
+				leftbottom = true;
+			}else if(kp == KeyEvent.VK_RIGHT){
+				rightbottom = true;
+			}else if(kp == KeyEvent.VK_A){
+				lefttop = true;
+			}else if(kp == KeyEvent.VK_D){
+				righttop = true;
+			}
 		}
 	}
 
@@ -164,13 +228,70 @@ public class Controller implements ActionListener, KeyListener {
 	@Override
 	public void keyReleased(KeyEvent e) {
 		int kp = e.getKeyCode();
-		if(kp == KeyEvent.VK_RIGHT || kp == KeyEvent.VK_D || kp == KeyEvent.VK_LEFT || 
-				kp == KeyEvent.VK_A) {
-			
-			game.getLevel().getPaddleTop().setDirection(0);
-			game.getLevel().getPaddleBottom().setDirection(0);
+		if(mode == 2) {
+			if (kp == KeyEvent.VK_LEFT) {
+				leftbottom = false;
+			} else if (kp == KeyEvent.VK_RIGHT) {
+				rightbottom = false;
+			} else if (kp == KeyEvent.VK_A) {
+				lefttop = false;
+			} else if (kp == KeyEvent.VK_D) {
+				righttop = false;
+			}
+		}else{
+			if(kp == KeyEvent.VK_RIGHT || kp == KeyEvent.VK_D || kp == KeyEvent.VK_LEFT ||
+					kp == KeyEvent.VK_A) {
+
+				game.getLevel().getPaddleTop().setDirection(0);
+				game.getLevel().getPaddleBottom().setDirection(0);
+			}
 		}
+
 		
+	}
+
+	// TODO
+	public void run(){
+		try{
+			finished = view.getGame().getLevel().getFinished();
+			while(!finished && !Thread.currentThread().isInterrupted()){
+				if(lefttop && leftbottom){
+					game.getLevel().getPaddleTop().setDirection(-1);
+					game.getLevel().getPaddleBottom().setDirection(-1);
+				}else if(lefttop && rightbottom){
+					game.getLevel().getPaddleTop().setDirection(-1);
+					game.getLevel().getPaddleBottom().setDirection(1);
+				}else if(righttop && leftbottom){
+					game.getLevel().getPaddleTop().setDirection(1);
+					game.getLevel().getPaddleBottom().setDirection(-1);
+				}else if(righttop && rightbottom){
+					game.getLevel().getPaddleTop().setDirection(1);
+					game.getLevel().getPaddleBottom().setDirection(1);
+				}else if(righttop){
+					game.getLevel().getPaddleTop().setDirection(1);
+					game.getLevel().getPaddleBottom().setDirection(0);
+				}else if(lefttop){
+					game.getLevel().getPaddleTop().setDirection(-1);
+					game.getLevel().getPaddleBottom().setDirection(0);
+				}else if(rightbottom){
+					game.getLevel().getPaddleTop().setDirection(0);
+					game.getLevel().getPaddleBottom().setDirection(1);
+				}else if(leftbottom){
+					game.getLevel().getPaddleTop().setDirection(0);
+					game.getLevel().getPaddleBottom().setDirection(-1);
+				}else{
+					try {
+						game.getLevel().getPaddleTop().setDirection(0);
+						game.getLevel().getPaddleBottom().setDirection(0);
+					}catch(Exception e){
+
+					}
+				}
+				Thread.sleep(2);
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}
 	}
 
 	// TODO : Angepasst for task 5.4
@@ -178,9 +299,11 @@ public class Controller implements ActionListener, KeyListener {
 	 * This method switches the view to the StartScreen view.
 	 */
 	public void toStartScreen(int score) {
+		view.getStartScreen().loadScore(score);
 		view.showScreen(StartScreen.class.getName());
 		view.getStartScreen().requestFocusInWindow();
-		view.getStartScreen().loadScore(score);
+
+		finished = true;
 	}
 
 	/**
