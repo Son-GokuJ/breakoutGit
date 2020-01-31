@@ -9,7 +9,7 @@ import break_out.view.View;
 /**
  * This class contains information about the game (the model in MVC)
  * 
- * @author dmlux, modified by I. Schumacher
+ * @author dmlux, modified by I. Schumacher modified by 224
  * 
  */
 public class Game {
@@ -32,7 +32,7 @@ public class Game {
 	/**
 	 * The first levelnumber
 	 */
-	private int firstLevel = 0;
+	private int firstLevel = 1;
 
 	/**
 	 * The last levelnumber
@@ -118,7 +118,7 @@ public class Game {
 			controller.toPlayground();
 		} else {
 			// tells the controller to switch to the startScreen of the game
-			controller.toStartScreen(level.getScore()); // TODO : Edited for task 5.4
+			controller.toStartScreen(level.getScore());
 		}
 	}
 }

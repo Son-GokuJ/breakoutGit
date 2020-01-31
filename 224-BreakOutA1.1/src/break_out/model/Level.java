@@ -159,13 +159,13 @@ public class Level extends Thread implements ILevel  {
 	            	updateStonesAndScore();
 	            }
 
-	            // TODO : neue Abfrage für Levelwechsel
+	            // Level change occurs when all stones are broken
 	            if(allStonesBroken()){
 	            	setFinished(true);
 	            	game.createLevel(levelnr + 1, score);
 				}
 
-	            // TODO : neue Abfrage mit Aufruf
+	            // decreasing lives when the ball is lost
 	            if(ball.isLost()){
 	            	decreaseLives();
 				}
@@ -187,14 +187,15 @@ public class Level extends Thread implements ILevel  {
     	}   
     }
 
-    // TODO : Pfad für Windows geändert!!!!!!!!!!!!!!!!!!
+    
     /**
     * Loads the information for the level from a json-file located in the folder /res of the project
+    * with alternative windows folder path
     * @param levelnr The number X for the LevelX.json file
     */
     private void loadLevelData(int levelnr) {
-    		//JSONReader reader = new JSONReader("/res/Level" + levelnr + ".json");
-    		JSONReader reader = new JSONReader("C:\\Users\\SchnitzelDöner\\IdeaProjects\\breakoutGit\\224-BreakOutA1.1\\res\\Level" + levelnr + ".json");
+    		JSONReader reader = new JSONReader("./res/Level" + levelnr + ".json");
+    		//JSONReader reader = new JSONReader("C:\\Users\\SchnitzelDöner\\IdeaProjects\\breakoutGit\\224-BreakOutA1.1\\res\\Level" + levelnr + ".json");
     		int[][] stoneTypes = reader.getStones2DArray();
     		this.lives = reader.getLifeCounter();
     		for(int y = 0; y < Constants.SQUARES_Y; y++) {
@@ -268,16 +269,26 @@ public class Level extends Thread implements ILevel  {
 		this.finished = finished;
 	}
 
-	// TODO : neue Getter für 5.2
+	/**
+	 * Getter for the current score
+	 * @return score The score value
+	 */
 	public int getScore() {
 		return score;
 	}
-
+	
+	/**
+	 * Getter for the Lives in this Level
+	 * @return lives The number of Lives
+	 */
 	public int getLives() {
 		return lives;
 	}
 
-	//TODO : neue Methode für Änderung der lives
+	/**
+	 * This method decreases the number of lives left
+	 * depending on whether the ball is lost
+	 */
 	public void decreaseLives(){
 		if(lives > 1){
 			lives--;
@@ -291,21 +302,18 @@ public class Level extends Thread implements ILevel  {
 			ball = new Ball();
 			ballWasStarted = false;
 		}else{
-			// TODO : kopiert aus run() from task 4
 			//going back to the startscreen
 			game.getController().toStartScreen(score);
 			setFinished(true);
-//			Robot robot;
-//			try {
-//				robot = new Robot();
-//				robot.keyPress(KeyEvent.VK_Q);
-//				robot.keyRelease(KeyEvent.VK_Q);
-//			} catch (AWTException e) {
-//				e.printStackTrace();
-//			}
+
 		}
 	}
-
+//TODO check if necesarry 
+	/**
+	 * Getter for the status of the level
+	 * by the variable finished
+	 * @return finished The boolean safed in finished
+	 */
 	public boolean getFinished() {
 		return finished;
 	}

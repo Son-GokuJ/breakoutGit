@@ -29,7 +29,15 @@ public class Controller extends Thread implements ActionListener, KeyListener {
 	 * The view that is connected to this controller
 	 */
 	private View view;
+	
+	/**
+	 * the mode variable is 2 for coop and 1 for single player
+	 */
 	private int mode;
+	
+	/**
+	 * status variables needed for the thread running in coop
+	 */
 	private boolean leftbottom = false;
 	private boolean rightbottom = false;
 	private boolean lefttop = false;
@@ -70,31 +78,6 @@ public class Controller extends Thread implements ActionListener, KeyListener {
 	private void assignKeyListener() {
 		// Get the field to add this controller as KeyListener
 		view.getField().addKeyListener(this);
-		if(mode == 3){
-			view.getField().addKeyListener(new KeyListener() {
-
-				@Override
-				public void keyTyped(KeyEvent e) {
-
-				}
-
-				@Override
-				public void keyPressed(KeyEvent e) {
-					int kp = e.getKeyCode();
-					if(kp == KeyEvent.VK_A){
-						game.getLevel().getPaddleTop().setDirection(-1);
-					}else if(kp == KeyEvent.VK_D){
-						game.getLevel().getPaddleTop().setDirection(1);
-					}
-				}
-
-				@Override
-				public void keyReleased(KeyEvent e) {
-
-				}
-			});
-		}
-
 	}
 
 	/**
@@ -111,7 +94,7 @@ public class Controller extends Thread implements ActionListener, KeyListener {
 		// source ... or simple: The user clicked this particular button.
 		if (startScreen.getStartButton().equals(e.getSource())) {
 			// The players name of the input field in the start window
-			mode = 1;
+			mode = 1; //single player
 			String playersName = startScreen.getPlayersName();
 			playersName = playersName.trim();
 			if (playersName.length() < 1) {
@@ -125,10 +108,10 @@ public class Controller extends Thread implements ActionListener, KeyListener {
 				view.setGame(game);
 			}
 		}
-		// TODO
+		// new block for the coop mode
 		else if(startScreen.getCoop().equals(e.getSource())){
-			interrupt();
-			mode = 2;
+			//interrupt();
+			mode = 2; // multiplayer mode
 			String playersName = startScreen.getPlayersName();
 			playersName = playersName.trim();
 			if (playersName.length() < 1) {
@@ -165,8 +148,13 @@ public class Controller extends Thread implements ActionListener, KeyListener {
 	/**
 	 * This method will be called, after a key was pressed down.
 	 * space bar starts and stops the ball
-	 * a, left arrow moves the nearest paddle to the left 
-	 * d, right arrow moves the nearest paddle to the right 
+	 * q and esc exit the level
+	 * in single player mode:
+	 * a and left arrow moves the nearest paddle to the left 
+	 * d and right arrow moves the nearest paddle to the right
+	 * in coop:
+	 * a and d control the top paddle
+	 * left and right arrow control the bottom paddle 
 	 * @param e The key event
 	 */
 	@Override
@@ -187,6 +175,7 @@ public class Controller extends Thread implements ActionListener, KeyListener {
 			}else {
 				game.getLevel().startBall();
 			}
+		// single player mode 
 		}else if((kp == KeyEvent.VK_RIGHT || kp == KeyEvent.VK_D) && mode == 1){
 			if(ap) {
 				game.getLevel().getPaddleBottom().setDirection(1);
@@ -206,7 +195,8 @@ public class Controller extends Thread implements ActionListener, KeyListener {
 		}else if(kp == KeyEvent.VK_ESCAPE || kp == KeyEvent.VK_Q) {
 			game.getLevel().setFinished(true);
 			finished = true;
-			toStartScreen(game.getLevel().getScore()); // TODO : Edited for task 5.4
+			toStartScreen(game.getLevel().getScore()); 
+		// coop mode sets variables for the thread to react on
 		}else if(mode == 2){
 			if(kp == KeyEvent.VK_LEFT){
 				leftbottom = true;
@@ -294,9 +284,9 @@ public class Controller extends Thread implements ActionListener, KeyListener {
 		}
 	}
 
-	// TODO : Angepasst for task 5.4
 	/**
-	 * This method switches the view to the StartScreen view.
+	 * This method switches the view to the StartScreen view
+	 * and shows the new score.
 	 */
 	public void toStartScreen(int score) {
 		view.getStartScreen().loadScore(score);

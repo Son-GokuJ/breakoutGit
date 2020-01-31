@@ -23,10 +23,15 @@ public class Ball implements IBall {
 	 * The balls direction
 	 */
 	private Vector2D direction;
-	
+
+	/**
+	 * The stone hit by the ball
+	 */
 	private Stone stoneHit;
 
-	//TODO : neue Variable für Status
+	/**
+	 * status variable for the ball being on the field
+	 */
 	private boolean lost = false;
 
 	/**
@@ -69,9 +74,9 @@ public class Ball implements IBall {
 		position.setY(position.getY() + direction.getDy());
 	}
 
-	//TODO : lost-Variable gesetzt
 	/**
 	 * Determining border contact and reversing vector direction accordingly
+	 * with the option of loosing the ball at the top and bottom
 	 */
 	public void reactOnBorder() {
 		if (position.getX() >= Constants.SCREEN_WIDTH - Constants.BALL_DIAMETER) {
@@ -199,7 +204,9 @@ public class Ball implements IBall {
 		}
 	}
 
-	//TODO : neue Methode, simpler Getter (globale Variable)
+	/**
+	 * Getter for the status variable if the ball is lost
+	 */
 	@Override
 	public boolean isLost() {
 		return lost;

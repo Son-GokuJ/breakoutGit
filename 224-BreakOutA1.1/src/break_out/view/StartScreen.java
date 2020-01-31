@@ -53,8 +53,15 @@ public class StartScreen extends JPanel {
 	 */
 	private JLabel error;
 
-	// TODO
+	/**
+	 * multiplayer mode button
+	 */
 	private JButton coop;
+	
+	/**
+	 * counting the rounds played for the scoreboard
+	 */
+	private int plays = 0;
 
 	
 	/**
@@ -161,6 +168,22 @@ public class StartScreen extends JPanel {
 	public JButton getStartButton() {
 		return startGame;
 	}
+	
+	/**
+	 * Adds an action listener to the coop button
+	 * @param l The actionListener
+	 */
+	public void addActionListenerToCoopButton(ActionListener l) {
+		coop.addActionListener(l);
+	}
+	
+	/**
+	 * Returns the coop button
+	 * @return coop The button for multiplayer mode
+	 */
+	public JButton getCoop(){
+		return coop;
+	}
 
 	/**
 	 * Adds an action listener to the quit button
@@ -202,15 +225,19 @@ public class StartScreen extends JPanel {
 	}
 
 	// TODO : Methode zum Anzeigen des Scores
-	private int plays = 0;
+	
 
+	/**
+	 * Adds the last score to the scoreboard
+	 * @param score The value of the hit stone 
+	 */
 	public void loadScore(int score) {
 		plays++;
 		JLabel result = new JLabel(getPlayersName() + "      " + score);
 		result.setFont(new Font("Calibri", Font.PLAIN, 20));
 		result.setHorizontalAlignment(SwingConstants.CENTER);
-
-		if(plays > 14){
+		//to prevent the scoreboard from overflowing the oldest entry is removed
+		if(plays > 14){ 
 			((SectionPanel)this.getComponent(1)).remove(1);
 			((SectionPanel)this.getComponent(1)).add(result, "cell 0 " + plays + ", gaptop 10");
 		}else{
@@ -219,10 +246,5 @@ public class StartScreen extends JPanel {
 		this.repaint();
 	}
 
-	public void addActionListenerToCoopButton(ActionListener l) {
-		coop.addActionListener(l);
-	} //TODO
-	public JButton getCoop(){
-		return coop;
-	}
+
 }

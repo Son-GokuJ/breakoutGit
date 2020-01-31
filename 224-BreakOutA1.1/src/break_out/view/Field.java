@@ -125,7 +125,7 @@ public class Field extends JPanel {
 		//Calls the method for drawing the stone-matrix
 		drawStones(g2);
 
-		// TODO : neue Aufrufe
+		//Setting the color and Font before writing Score and Lives
 		g2.setColor(Color.BLACK);
 		g2.setFont(new Font("Calibri", Font.BOLD, 35));
 		drawScore(g2);
@@ -169,7 +169,10 @@ public class Field extends JPanel {
 				(int) view.getGame().getLevel().getPaddleTop().getHeight(),15,15);
 	}
 
-	// TODO : JAVA-DOC Comment!!!
+	/**
+	 * Draws each stone
+	 * @param g2 The graphics object
+	 */
 	private void drawStones(Graphics2D g2) {
 		for(Stone stone : view.getGame().getLevel().getStones()) {
 			g2.setColor(stone.getColor());
@@ -180,14 +183,20 @@ public class Field extends JPanel {
 		}
 	}
 
-	// TODO : task 5.2
+	/**
+	 * Draws the score at the top right corner
+	 * @param g2 The graphics object
+	 */
 	private void drawScore(Graphics2D g2){
 		g2.drawString("Score: " + Integer.toString(view.getGame().getLevel().getScore()),
 				Constants.SCREEN_WIDTH - 5 * Constants.SCREEN_WIDTH / Constants.SQUARES_X,
 				3 * Constants.SCREEN_HEIGHT / Constants.SQUARES_Y);
 	}
 
-	// TODO : task 5.2
+	/**
+	 * Draws the lives at the top left corner
+	 * @param g2 The graphics object
+	 */
 	private void drawLives(Graphics2D g2){
 		g2.drawString("Lives: " + Integer.toString(view.getGame().getLevel().getLives()),
 				2 * Constants.SCREEN_WIDTH / Constants.SQUARES_X,
