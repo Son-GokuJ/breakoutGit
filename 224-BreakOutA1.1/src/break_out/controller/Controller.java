@@ -43,9 +43,6 @@ public class Controller extends Thread implements ActionListener, KeyListener {
 	private boolean lefttop = false;
 	private boolean righttop = false;
 	private boolean finished = false;
-	//TODO
-	private boolean paused = false;
-    private final Object pauseLock = new Object();
 
 	/**
 	 * The constructor expects a view to construct itself.
@@ -113,7 +110,7 @@ public class Controller extends Thread implements ActionListener, KeyListener {
 		}
 		// new block for the coop mode
 		else if(startScreen.getCoop().equals(e.getSource())){
-			//interrupt();
+			finished = false; // TODO : Variable gibt Startsignal für Thread
 			
 			mode = 2; // multiplayer mode
 			String playersName = startScreen.getPlayersName();
@@ -128,14 +125,11 @@ public class Controller extends Thread implements ActionListener, KeyListener {
 				// ... and tell the view to set this new game object.
 				view.setGame(game);
 			}
-			if(!Thread.currentThread().isAlive()){
-				
-			}
-			//TODO
+			//TODO : Versucht neuen Thread zu starten (falls schon vorhanden -> tue nichts)
 			try {
 				start();	
-			} catch(Exception e1) {
-				resumeCoop();
+			} catch(Exception ex) {
+
 			}
 			
 		}
@@ -254,33 +248,8 @@ public class Controller extends Thread implements ActionListener, KeyListener {
 	// TODO
 	public void run(){
 		try{
-			//finished = view.getGame().getLevel().getFinished();
-			while(!finished){
-				synchronized (pauseLock) {
-	                if (finished) { // may have changed while waiting to
-	                    // synchronize on pauseLock
-	                    break;
-	                }
-	                if (paused) {
-	                    try {
-	                        synchronized (pauseLock) {
-	                            pauseLock.wait(); // will cause this Thread to block until 
-	                            // another thread calls pauseLock.notifyAll()
-	                            // Note that calling wait() will 
-	                            // relinquish the synchronized lock that this 
-	                            // thread holds on pauseLock so another thread
-	                            // can acquire the lock to call notifyAll()
-	                            // (link with explanation below this code)
-	                        }
-	                    } catch (InterruptedException ex) {
-	                        break;
-	                    }
-	                    if (finished) { // running might have changed since we paused
-	                        break;
-	                    }
-	                }
-	            }
-	            // Your code here
+			while(true){
+				finished = view.getGame().getLevel().getFinished(); // TODO : Regelmäßiges Update der Thread-Status-Variablen
 
 				if(lefttop && leftbottom){
 					game.getLevel().getPaddleTop().setDirection(-1);
@@ -315,6 +284,18 @@ public class Controller extends Thread implements ActionListener, KeyListener {
 					}
 				}
 				Thread.sleep(2);
+				// TODO : Thread wird schlafen geschickt, bis sich Thread-Status-Variable ändert
+				/*
+				* äußere while darf nie beendet werden, da damit der Thread stirbt
+				* -> keine Argumente die einen break hervorrufen können
+				* -> "Standby"-Status muss in while erfolgen
+				* -> Problem: im Thread kann der Status nicht mehr aktualisiert werden
+				* -> Änderung der Variablen muss bei Buttondruck erfolgen
+				* */
+				while(finished){
+					Thread.sleep(100);
+					// System.out.print("s"); TODO : Test wann Standby-Status aktiv
+				}
 			}
 		}catch(Exception e){
 			e.printStackTrace();
@@ -330,16 +311,7 @@ public class Controller extends Thread implements ActionListener, KeyListener {
 		view.showScreen(StartScreen.class.getName());
 		view.getStartScreen().requestFocusInWindow();
 
-		//finished = true;
-		paused = true;
-	}
-	
-	//TODO
-	public void resumeCoop() {
-		synchronized (pauseLock) {
-            paused = false;
-            pauseLock.notifyAll(); // Unblocks thread
-        }
+		finished = true;
 	}
 
 	/**
