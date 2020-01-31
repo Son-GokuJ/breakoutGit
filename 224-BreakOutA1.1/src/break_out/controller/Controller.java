@@ -305,6 +305,7 @@ public class Controller extends Thread implements ActionListener, KeyListener {
 	/**
 	 * This method switches the view to the StartScreen view
 	 * and shows the new score.
+	 * @param score the current score value
 	 */
 	public void toStartScreen(int score) {
 		view.getStartScreen().loadScore(score);
