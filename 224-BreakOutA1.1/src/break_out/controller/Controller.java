@@ -43,6 +43,9 @@ public class Controller extends Thread implements ActionListener, KeyListener {
 	private boolean lefttop = false;
 	private boolean righttop = false;
 	private boolean finished = false;
+	//TODO
+	private boolean paused = false;
+    private final Object pauseLock = new Object();
 
 	/**
 	 * The constructor expects a view to construct itself.
@@ -111,6 +114,7 @@ public class Controller extends Thread implements ActionListener, KeyListener {
 		// new block for the coop mode
 		else if(startScreen.getCoop().equals(e.getSource())){
 			//interrupt();
+			
 			mode = 2; // multiplayer mode
 			String playersName = startScreen.getPlayersName();
 			playersName = playersName.trim();
@@ -125,8 +129,15 @@ public class Controller extends Thread implements ActionListener, KeyListener {
 				view.setGame(game);
 			}
 			if(!Thread.currentThread().isAlive()){
-				start();
+				
 			}
+			//TODO
+			try {
+				start();	
+			} catch(Exception e1) {
+				resumeCoop();
+			}
+			
 		}
 
 		// If the eventSource was the quit button we will exit the whole application.
@@ -243,8 +254,34 @@ public class Controller extends Thread implements ActionListener, KeyListener {
 	// TODO
 	public void run(){
 		try{
-			finished = view.getGame().getLevel().getFinished();
-			while(!finished && !Thread.currentThread().isInterrupted()){
+			//finished = view.getGame().getLevel().getFinished();
+			while(!finished){
+				synchronized (pauseLock) {
+	                if (finished) { // may have changed while waiting to
+	                    // synchronize on pauseLock
+	                    break;
+	                }
+	                if (paused) {
+	                    try {
+	                        synchronized (pauseLock) {
+	                            pauseLock.wait(); // will cause this Thread to block until 
+	                            // another thread calls pauseLock.notifyAll()
+	                            // Note that calling wait() will 
+	                            // relinquish the synchronized lock that this 
+	                            // thread holds on pauseLock so another thread
+	                            // can acquire the lock to call notifyAll()
+	                            // (link with explanation below this code)
+	                        }
+	                    } catch (InterruptedException ex) {
+	                        break;
+	                    }
+	                    if (finished) { // running might have changed since we paused
+	                        break;
+	                    }
+	                }
+	            }
+	            // Your code here
+
 				if(lefttop && leftbottom){
 					game.getLevel().getPaddleTop().setDirection(-1);
 					game.getLevel().getPaddleBottom().setDirection(-1);
@@ -293,7 +330,16 @@ public class Controller extends Thread implements ActionListener, KeyListener {
 		view.showScreen(StartScreen.class.getName());
 		view.getStartScreen().requestFocusInWindow();
 
-		finished = true;
+		//finished = true;
+		paused = true;
+	}
+	
+	//TODO
+	public void resumeCoop() {
+		synchronized (pauseLock) {
+            paused = false;
+            pauseLock.notifyAll(); // Unblocks thread
+        }
 	}
 
 	/**
