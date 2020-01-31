@@ -195,6 +195,7 @@ public class StartScreen extends JPanel {
 		error.setText("");
 	}
 
+	// TODO : Methode zum Anzeigen des Scores
 	private int plays = 0;
 
 	public void loadScore(int score) {
@@ -202,6 +203,12 @@ public class StartScreen extends JPanel {
 		JLabel result = new JLabel(getPlayersName() + "      " + score);
 		result.setFont(new Font("Calibri", Font.PLAIN, 20));
 		result.setHorizontalAlignment(SwingConstants.CENTER);
-		((SectionPanel)this.getComponent(1)).add(result, "cell 0 " + plays + ", gaptop 10");
+
+		if(plays > 14){
+			((SectionPanel)this.getComponent(1)).remove(1);
+			((SectionPanel)this.getComponent(1)).add(result, "cell 0 " + plays + ", gaptop 10");
+		}else{
+			((SectionPanel)this.getComponent(1)).add(result, "cell 0 " + plays + ", gaptop 10");
+		}
 	}
 }
