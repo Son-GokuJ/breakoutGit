@@ -110,7 +110,7 @@ public class Controller extends Thread implements ActionListener, KeyListener {
 		}
 		// new block for the coop mode
 		else if(startScreen.getCoop().equals(e.getSource())){
-			finished = false; // TODO : Variable gibt Startsignal für Thread
+			finished = false; //Variable gibt "Startsignal" für Thread
 			
 			mode = 2; // multiplayer mode
 			String playersName = startScreen.getPlayersName();
@@ -125,7 +125,7 @@ public class Controller extends Thread implements ActionListener, KeyListener {
 				// ... and tell the view to set this new game object.
 				view.setGame(game);
 			}
-			//TODO : Versucht neuen Thread zu starten (falls schon vorhanden -> tue nichts)
+			//Versucht neuen Thread zu starten (falls schon vorhanden -> tue nichts)
 			try {
 				start();	
 			} catch(Exception ex) {
@@ -285,7 +285,7 @@ public class Controller extends Thread implements ActionListener, KeyListener {
 					}
 				}
 				Thread.sleep(2);
-				// Thread wird schlafen geschickt, bis sich Thread-Status-Variable ändert
+				// Thread wird "schlafen" geschickt, bis sich Thread-Status-Variable ändert
 				/*
 				* äußere while darf nie beendet werden, da damit der Thread stirbt
 				* -> keine Argumente die einen break hervorrufen können
