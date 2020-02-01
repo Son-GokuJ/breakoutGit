@@ -32,7 +32,7 @@ public class Game {
 	/**
 	 * The first levelnumber
 	 */
-	private int firstLevel = 0;
+	private int firstLevel = 1;
 
 	/**
 	 * The last levelnumber
