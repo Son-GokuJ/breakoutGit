@@ -30,6 +30,11 @@ public class Position {
 		this.y = y;
 	}
 
+	public Position(Position p){
+		this.x = p.getX();
+		this.y = p.getY();
+	}
+
 	/**
 	 * Getter for the x-coordinate
 	 * 

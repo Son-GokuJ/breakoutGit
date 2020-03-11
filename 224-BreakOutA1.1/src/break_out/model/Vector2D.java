@@ -30,7 +30,11 @@ public class Vector2D implements IVector2D{
 		this.dy = dy;
 	}
 
-	
+	public Vector2D(Vector2D v){
+		this.dx = v.getDx();
+		this.dy = v.getDy();
+	}
+
 	/**
 	 * This constructor creates a new vector with two given positions on the field.
 	 * @param pos1 the starting position
@@ -86,4 +90,11 @@ public class Vector2D implements IVector2D{
 				* Constants.BALL_SPEED;
 	}
 
+	public boolean comp(Vector2D v){
+		if(this.dx == v.getDx() && this.dy == v.getDy()){
+			return false;
+		}else{
+			return true;
+		}
+	}
 }

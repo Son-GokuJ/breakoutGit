@@ -168,7 +168,6 @@ public class Level extends Thread implements ILevel  {
 	            if(ball.isLost()){
 	            	decreaseLives();
 				}
-	           
 	            //update paddles to check for keypress
 	            paddleTop.updatePosition(ball);
 	            paddleBottom.updatePosition(ball);
@@ -186,8 +185,7 @@ public class Level extends Thread implements ILevel  {
     	}   
     }
 
-    
-    /**
+	/**
     * Loads the information for the level from a json-file located in the folder /res of the project
     * with alternative windows folder path
     * @param levelnr The number X for the LevelX.json file
