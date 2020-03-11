@@ -238,10 +238,8 @@ public class StartScreen extends JPanel {
 		//to prevent the scoreboard from overflowing the oldest entry is removed
 		if(plays > 14){ 
 			((SectionPanel)this.getComponent(1)).remove(1);
-			((SectionPanel)this.getComponent(1)).add(result, "cell 0 " + plays + ", gaptop 10");
-		}else{
-			((SectionPanel)this.getComponent(1)).add(result, "cell 0 " + plays + ", gaptop 10");
 		}
+		((SectionPanel)this.getComponent(1)).add(result, "cell 0 " + plays + ", gaptop 10");
 		this.repaint();
 	}
 

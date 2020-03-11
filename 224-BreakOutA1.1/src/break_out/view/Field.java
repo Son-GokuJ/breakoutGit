@@ -188,7 +188,7 @@ public class Field extends JPanel {
 	 * @param g2 The graphics object
 	 */
 	private void drawScore(Graphics2D g2){
-		g2.drawString("Score: " + Integer.toString(view.getGame().getLevel().getScore()),
+		g2.drawString("Score: " + view.getGame().getLevel().getScore(),
 				Constants.SCREEN_WIDTH - 5 * Constants.SCREEN_WIDTH / Constants.SQUARES_X,
 				3 * Constants.SCREEN_HEIGHT / Constants.SQUARES_Y);
 	}
@@ -198,7 +198,7 @@ public class Field extends JPanel {
 	 * @param g2 The graphics object
 	 */
 	private void drawLives(Graphics2D g2){
-		g2.drawString("Lives: " + Integer.toString(view.getGame().getLevel().getLives()),
+		g2.drawString("Lives: " + view.getGame().getLevel().getLives(),
 				2 * Constants.SCREEN_WIDTH / Constants.SQUARES_X,
 				3 * Constants.SCREEN_HEIGHT / Constants.SQUARES_Y);
 	}

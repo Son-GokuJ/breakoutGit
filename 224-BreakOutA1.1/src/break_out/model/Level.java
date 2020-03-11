@@ -254,7 +254,7 @@ public class Level extends Thread implements ILevel  {
 	 * This method removes all the stones once they are hit
 	 */
 	private boolean allStonesBroken() {
-		return this.stones.size() ==0;
+		return this.stones.size() == 0;
 	}
 
 	/**
