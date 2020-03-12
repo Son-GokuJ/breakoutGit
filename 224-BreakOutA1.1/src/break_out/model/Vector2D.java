@@ -91,10 +91,11 @@ public class Vector2D implements IVector2D{
 	}
 
 	public boolean comp(Vector2D v){
-		if(this.dx == v.getDx() && this.dy == v.getDy()){
-			return false;
-		}else{
+		// System.out.println(this.dx + " , " + v.getDx() + " , " + this.dy + " , "+ v.getDy());
+		if(this.dx != v.getDx() || this.dy != v.getDy()){
 			return true;
+		}else{
+			return false;
 		}
 	}
 }

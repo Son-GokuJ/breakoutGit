@@ -308,8 +308,8 @@ public class Controller extends Thread implements ActionListener, KeyListener {
         System.out.println(bp.getX() + " , " + bp.getY());
         Vector2D shortV = null;
         for (Stone s : game.getLevel().getStones()) {
-            Position sp = new Position((s.getPosition().getX() + (Constants.SCREEN_WIDTH / Constants.SQUARES_X)) / 2,
-                    (s.getPosition().getY() + (Constants.SCREEN_HEIGHT / Constants.SQUARES_Y)) / 2);
+            Position sp = new Position(s.getPosition().getX() + ((double)Constants.SCREEN_WIDTH / Constants.SQUARES_X) / 2,
+                    s.getPosition().getY() + ((double)Constants.SCREEN_HEIGHT / Constants.SQUARES_Y) / 2);
             Vector2D tempV = new Vector2D(sp.getX() - bp.getX(), sp.getY() - bp.getY());
             if (shortV == null) {
                 shortV = tempV;
@@ -322,79 +322,37 @@ public class Controller extends Thread implements ActionListener, KeyListener {
         return shortV;
     }
 
-    private Position getOptPos2(Vector2D shortV, Position bp) {
+    private Position getOptPos(Vector2D shortV, Position bp) {
         if (bp.getY() <= ((double) Constants.SCREEN_HEIGHT + (double) Constants.BALL_DIAMETER) / 2) {
             flag = true;
             int y = (int) (Constants.PADDLE_HEIGHT - Constants.REFLECTION_OFFSET);
+            int k = (int) ((y - bp.getY()) / shortV.getDy()); // immer negativ
 
-            int k = (int) ((y - bp.getY()) / shortV.getDy());
+            Position paddle = new Position(bp.getX() - (double) Constants.PADDLE_WIDTH / 2 + k * shortV.getDx(), 0);
 
-            Position paddle = new Position(bp.getX() + k * shortV.getDx(), 0);
-            if (paddle.getX() > Constants.SCREEN_WIDTH || paddle.getX() < 0) {
-                paddle = new Position(bp.getX() - k * shortV.getDx(), 0);
+            if (paddle.getX() > Constants.SCREEN_WIDTH - Constants.PADDLE_WIDTH) {
+                paddle = new Position(Constants.SCREEN_WIDTH - Constants.PADDLE_WIDTH, 0);
+            } else if (paddle.getX() < 0) {
+                paddle = new Position(0, 0);
             }
             System.out.println(1 + ": " + paddle.getX() + " , " + paddle.getY());
             return paddle;
         } else {
             flag = false;
             int y = (int) (Constants.SCREEN_HEIGHT - Constants.PADDLE_HEIGHT + Constants.REFLECTION_OFFSET);
+            int k = (int) ((y - bp.getY()) / shortV.getDy()); // immer negativ
 
-            int k = (int) ((y - bp.getY()) / shortV.getDy());
-
-            Position paddle = new Position(bp.getX() + k * shortV.getDx(), Constants.SCREEN_HEIGHT - Constants.PADDLE_HEIGHT);
-            System.out.println(2 + ": " + paddle.getX() + " , " + paddle.getY());
-            return paddle;
-        }
-    }
-
-    private Position getOptPos(Vector2D shortV, Position bp) {
-        if (bp.getY() <= ((double) Constants.SCREEN_HEIGHT + (double) Constants.BALL_DIAMETER) / 2) {
-            flag = true;
-            Position paddle = new Position(bp.getX() + (double) Constants.BALL_DIAMETER / 2 - Constants.PADDLE_WIDTH,
-                    Constants.PADDLE_HEIGHT);
-            Position offset = new Position(paddle.getX() + (double) Constants.PADDLE_WIDTH / 2,
-                    (Constants.PADDLE_HEIGHT - Constants.REFLECTION_OFFSET));
-
-            for (int i = 0; i < 65; i++) {
-                Vector2D temp = new Vector2D(offset, bp);
-                temp.rescale();
-
-                if (temp.getDx() < shortV.getDx() && paddle.getX() < bp.getX() + ((double) Constants.BALL_DIAMETER +
-                        (double) Constants.PADDLE_WIDTH) / 2) {
-                    paddle.setX(paddle.getX() + 1);
-                    offset.setX(offset.getX() + 1);
-                } else if (temp.getDx() > shortV.getDx() && paddle.getX() > bp.getX() - (double) Constants.PADDLE_WIDTH / 2 +
-                        (double) Constants.BALL_DIAMETER / 2) {
-                    paddle.setX(paddle.getX() - 1);
-                    offset.setX(offset.getX() - 1);
-                } else {
-                    break;
-                }
-            }
-            return paddle;
-        } else {
-            flag = false;
-            Position paddle = new Position(bp.getX() + (double) Constants.BALL_DIAMETER / 2 - Constants.PADDLE_WIDTH,
+            Position paddle = new Position(bp.getX() - (double) Constants.PADDLE_WIDTH / 2 + k * shortV.getDx(),
                     Constants.SCREEN_HEIGHT - Constants.PADDLE_HEIGHT);
-            Position offset = new Position(paddle.getX() + (double) Constants.PADDLE_WIDTH / 2,
-                    paddle.getY() - Constants.REFLECTION_OFFSET);
 
-            for (int i = 0; i < 65; i++) {
-                Vector2D temp = new Vector2D(offset, bp);
-                temp.rescale();
-
-                if (temp.getDx() < shortV.getDx() && paddle.getX() < bp.getX() + ((double) Constants.BALL_DIAMETER +
-                        (double) Constants.PADDLE_WIDTH) / 2) {
-                    paddle.setX(paddle.getX() - 1);
-                    offset.setX(offset.getX() - 1);
-                } else if (temp.getDx() > shortV.getDx() && paddle.getX() > bp.getX() - (double) Constants.PADDLE_WIDTH / 2 +
-                        (double) Constants.BALL_DIAMETER / 2) {
-                    paddle.setX(paddle.getX() + 1);
-                    offset.setX(offset.getX() + 1);
-                } else {
-                    break;
-                }
+            if (paddle.getX() > Constants.SCREEN_WIDTH - Constants.PADDLE_WIDTH) {
+                paddle = new Position(Constants.SCREEN_WIDTH - Constants.PADDLE_WIDTH,
+                        Constants.SCREEN_HEIGHT - Constants.PADDLE_HEIGHT);
+            } else if (paddle.getX() < 0) {
+                paddle = new Position(0, Constants.SCREEN_HEIGHT - Constants.PADDLE_HEIGHT);
             }
+
+            System.out.println(2 + ": " + paddle.getX() + " , " + paddle.getY());
             return paddle;
         }
     }
@@ -415,12 +373,13 @@ public class Controller extends Thread implements ActionListener, KeyListener {
                     // TODO: Löst nur aus, wenn Ball von Paddle abprallt
                     // TODO: Durchgeführte Berechnungen augenscheinlich korrekt
                     // TODO: Auslösen bei Abprallen an Wand und Steinen
+                    // System.out.println(currV.getDx() + " , " + currV.getDy());
                     if (currV.comp(game.getLevel().getBall().getDirection())) {
-                        currV = game.getLevel().getBall().getDirection();
+                        currV = new Vector2D(game.getLevel().getBall().getDirection());
                         Position bp = getHitPoint();
                         if (bp != null) {
                             Vector2D shortV = getClosestStone(bp);
-                            paddle = getOptPos2(shortV, bp);
+                            paddle = getOptPos(shortV, bp);
                             reached = 0;
                         } else {
                             reached = 5;
