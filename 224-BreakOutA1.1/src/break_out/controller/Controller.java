@@ -244,20 +244,20 @@ public class Controller extends Thread implements ActionListener, KeyListener {
     private Position getHitPoint() {
         Position currPos = new Position(game.getLevel().getBall().getPosition());
         Vector2D dir = new Vector2D(game.getLevel().getBall().getDirection());
-        int w;
-        int h;
+        double w;
+        double h;
 
         if (dir.getDx() > 0) {
-            w = (int) ((Constants.SCREEN_WIDTH - currPos.getX() - Constants.BALL_DIAMETER) / dir.getDx());
+            w = ((Constants.SCREEN_WIDTH - currPos.getX() - Constants.BALL_DIAMETER) / dir.getDx());
         } else {
-            w = -(int) (currPos.getX() / dir.getDx());
+            w = -(currPos.getX() / dir.getDx());
         }
 
         if (dir.getDy() > 0) {
-            h = (int) ((Constants.SCREEN_HEIGHT - currPos.getY() - Constants.BALL_DIAMETER -
+            h = ((Constants.SCREEN_HEIGHT - currPos.getY() - Constants.BALL_DIAMETER -
                     Constants.PADDLE_HEIGHT) / dir.getDy());
         } else {
-            h = -(int) ((currPos.getY() - Constants.PADDLE_HEIGHT) / dir.getDy());
+            h = -((currPos.getY() - Constants.PADDLE_HEIGHT) / dir.getDy());
         }
 //        System.out.print("x : " + currPos.getX());
 //        System.out.print(" , y: " + currPos.getY());
@@ -274,9 +274,10 @@ public class Controller extends Thread implements ActionListener, KeyListener {
         System.out.println(bp.getX() + " , " + bp.getY());
         Vector2D shortV = null;
         for (Stone s : game.getLevel().getStones()) {
-            Position sp = new Position(s.getPosition().getX() + ((double)Constants.SCREEN_WIDTH / Constants.SQUARES_X) / 2,
-                    s.getPosition().getY() + ((double)Constants.SCREEN_HEIGHT / Constants.SQUARES_Y) / 2);
-            Vector2D tempV = new Vector2D(sp.getX() - bp.getX(), sp.getY() - bp.getY());
+            Position sp = new Position(s.getPosition().getX() + ((double) Constants.SCREEN_WIDTH / Constants.SQUARES_X) / 2,
+                    s.getPosition().getY() + ((double) Constants.SCREEN_HEIGHT / Constants.SQUARES_Y) / 2);
+            Vector2D tempV = new Vector2D(sp.getX() - (bp.getX() + (double) Constants.BALL_DIAMETER / 2),
+                    sp.getY() - (bp.getY() + (double) Constants.BALL_DIAMETER / 2));
             if (shortV == null) {
                 shortV = tempV;
             } else if (Math.sqrt(shortV.getDx() * shortV.getDx() + shortV.getDy() * shortV.getDy()) >
@@ -292,7 +293,7 @@ public class Controller extends Thread implements ActionListener, KeyListener {
         if (bp.getY() <= ((double) Constants.SCREEN_HEIGHT + (double) Constants.BALL_DIAMETER) / 2) {
             flag = true;
             int y = (int) (Constants.PADDLE_HEIGHT - Constants.REFLECTION_OFFSET);
-            int k = (int) ((y - bp.getY()) / shortV.getDy()); // immer negativ
+            double k = ((y - bp.getY()) / shortV.getDy()); // immer negativ
             Position paddle = new Position(bp.getX() - (double) Constants.PADDLE_WIDTH / 2 + k * shortV.getDx(), 0);
 
             if (paddle.getX() > Constants.SCREEN_WIDTH - Constants.PADDLE_WIDTH) {
@@ -305,7 +306,7 @@ public class Controller extends Thread implements ActionListener, KeyListener {
         } else {
             flag = false;
             int y = (int) (Constants.SCREEN_HEIGHT - Constants.PADDLE_HEIGHT + Constants.REFLECTION_OFFSET);
-            int k = (int) ((y - bp.getY()) / shortV.getDy()); // immer negativ
+            double k = ((y - bp.getY()) / shortV.getDy()); // immer negativ
             Position paddle = new Position(bp.getX() - (double) Constants.PADDLE_WIDTH / 2 + k * shortV.getDx(),
                     Constants.SCREEN_HEIGHT - Constants.PADDLE_HEIGHT);
 
@@ -332,6 +333,8 @@ public class Controller extends Thread implements ActionListener, KeyListener {
             int reached = 5;
             Position paddle = new Position(((double) Constants.SCREEN_WIDTH -
                     Constants.PADDLE_WIDTH) / 2, 0);
+            int dirPadBot = 0;
+            int dirPadTop = 0;
             while (true) {
                 if (mode == 1) {
                     if (currV.comp(game.getLevel().getBall().getDirection())) {
@@ -346,27 +349,7 @@ public class Controller extends Thread implements ActionListener, KeyListener {
                         }
                     }
 
-                    if (flag && reached == 0) {
-                        if (game.getLevel().getPaddleTop().getPosition().getX() < paddle.getX()) {
-                            game.getLevel().getPaddleTop().setDirection(1);
-                        } else {
-                            game.getLevel().getPaddleTop().setDirection(-1);
-                        }
-                        game.getLevel().getPaddleBottom().setDirection(0);
-                        if (paddle.getX() == game.getLevel().getPaddleTop().getPosition().getX()) {
-                            reached = 1;
-                        }
-                    } else if (!flag && reached == 0) {
-                        if (game.getLevel().getPaddleBottom().getPosition().getX() < paddle.getX()) {
-                            game.getLevel().getPaddleBottom().setDirection(1);
-                        } else {
-                            game.getLevel().getPaddleBottom().setDirection(-1);
-                        }
-                        game.getLevel().getPaddleTop().setDirection(0);
-                        if (paddle.getX() == game.getLevel().getPaddleBottom().getPosition().getX()) {
-                            reached = 1;
-                        }
-                    } else if (game.getLevel().getBall().getPosition().getY() <=
+                    if (game.getLevel().getBall().getPosition().getY() <=
                             ((double) Constants.SCREEN_HEIGHT - (double) Constants.BALL_DIAMETER) / 2 &&
                             reached == 5) {
                         if (game.getLevel().getBall().getPosition().getX() <=
@@ -394,11 +377,50 @@ public class Controller extends Thread implements ActionListener, KeyListener {
                             game.getLevel().getPaddleBottom().setDirection(0);
                         }
                         game.getLevel().getPaddleTop().setDirection(0);
-                    }
-
-                    if (reached == 1) {
-                        game.getLevel().getPaddleTop().setDirection(0);
-                        game.getLevel().getPaddleBottom().setDirection(0);
+                    } else if (flag) {
+                        if (reached == 0) {
+                            if (game.getLevel().getPaddleTop().getPosition().getX() < paddle.getX()) {
+                                dirPadTop = 1;
+                            } else {
+                                dirPadTop = -1;
+                            }
+                            dirPadBot = 0;
+                            reached = 2;
+                        } else if (reached == 2) {
+                            if (dirPadTop == 1 && game.getLevel().getPaddleTop().getPosition().getX() > paddle.getX()) {
+                                game.getLevel().getPaddleTop().setPosition(paddle);
+                                dirPadTop = 0;
+                                reached = 1;
+                            } else if (dirPadTop == -1 && game.getLevel().getPaddleTop().getPosition().getX() < paddle.getX()) {
+                                game.getLevel().getPaddleTop().setPosition(paddle);
+                                dirPadTop = 0;
+                                reached = 1;
+                            }
+                            game.getLevel().getPaddleTop().setDirection(dirPadTop);
+                            game.getLevel().getPaddleBottom().setDirection(dirPadBot);
+                        }
+                    } else if (!flag) {
+                        if (reached == 0) {
+                            if (game.getLevel().getPaddleBottom().getPosition().getX() < paddle.getX()) {
+                                dirPadBot = 1;
+                            } else {
+                                dirPadBot = -1;
+                            }
+                            dirPadTop = 0;
+                            reached = 2;
+                        } else if (reached == 2) {
+                            if (dirPadBot == 1 && game.getLevel().getPaddleBottom().getPosition().getX() > paddle.getX()) {
+                                game.getLevel().getPaddleBottom().setPosition(paddle);
+                                dirPadBot = 0;
+                                reached = 1;
+                            } else if (dirPadBot == -1 && game.getLevel().getPaddleBottom().getPosition().getX() < paddle.getX()) {
+                                game.getLevel().getPaddleBottom().setPosition(paddle);
+                                dirPadBot = 0;
+                                reached = 1;
+                            }
+                            game.getLevel().getPaddleTop().setDirection(dirPadTop);
+                            game.getLevel().getPaddleBottom().setDirection(dirPadBot);
+                        }
                     }
 
 //                    if (game.getLevel().getBall().getPosition().getY() <=
