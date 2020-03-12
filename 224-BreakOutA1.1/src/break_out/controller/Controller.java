@@ -241,26 +241,6 @@ public class Controller extends Thread implements ActionListener, KeyListener {
         }
     }
 
-    /*
-     *   Paddle soll aus Auftreffpunkt des Balls auf Paddleoberseite(Bottom) bzw. Paddleunterseite(Top)
-     *   die optimale Flugbahn berechnen, um den nächstgelegensten Stein zu treffen.
-     *   1. Berechnung des nächstgelegen Steins zum Auftreffpunkt
-     *   2. Berechnung des Vektors Auftreffpunkt -> Mittelpunkt des Steins (siehe 1.2)
-     *   3. Berechnung, um optimale Paddlepostion zu finden, damit Änderungsvektor an Steinvektor angenähert ist
-     *
-     *   1.1 Berechnung des Auftreffpunktes
-     *       Position des Balls weiterrechnen mit aktuellem Vektor (inkl. Speed) bis
-     *           a) Paddlehöhe erreicht
-     *           b) Außenwand berührt (links bzw. rechts)
-     *   1.2 Berechnung des kürzesten Vektors zu Stein
-     *       Stein-Array mit Schleife durchlaufen -> Vektor berechnen -> kürzesten speichern -> Zielposition zurückgeben
-     *
-     * 3. Areas definieren für Vektoren -> Annäherung durch Verschiebung des Paddles in nähere Richtung
-     *       -> Rückgabe der Paddleposition -> Bewegung des Paddles auf Position
-     * 4. Abfrage, sodass Berechnungen nur durchgeführt werden, wenn sich der Vektor ändert
-     *
-     * */
-
     private Position getHitPoint() {
         Position currPos = new Position(game.getLevel().getBall().getPosition());
         Vector2D dir = new Vector2D(game.getLevel().getBall().getDirection());
@@ -279,29 +259,15 @@ public class Controller extends Thread implements ActionListener, KeyListener {
         } else {
             h = -(int) ((currPos.getY() - Constants.PADDLE_HEIGHT) / dir.getDy());
         }
-
-        System.out.print("x : " + currPos.getX());
-        System.out.print(" , y: " + currPos.getY());
-        System.out.print(" ,w : " + w);
-        System.out.println(" , h: " + h);
+//        System.out.print("x : " + currPos.getX());
+//        System.out.print(" , y: " + currPos.getY());
+//        System.out.print(" ,w : " + w);
+//        System.out.println(" , h: " + h);
         if (h <= w) {
             return new Position(currPos.getX() + dir.getDx() * h, currPos.getY() + dir.getDy() * h);
         } else {
-            // return new Position(currPos.getX() + dir.getDx() * w, currPos.getY() + dir.getDy() * w);
             return null;
         }
-//        while (true) {
-//            currPos.setX(currPos.getX() + dir.getDx());
-//            currPos.setY(currPos.getY() + dir.getDy());
-//            if (currPos.getX() >= Constants.SCREEN_WIDTH - Constants.BALL_DIAMETER || currPos.getX() <= 0) {
-//                //System.out.print(0);
-//                return null;
-//            } else if (currPos.getY() <= Constants.PADDLE_HEIGHT || currPos.getY() >= (Constants.SCREEN_HEIGHT -
-//                    Constants.PADDLE_HEIGHT) - Constants.BALL_DIAMETER) {
-//                //System.out.print(1);
-//                return currPos;
-//            }
-//        }
     }
 
     private Vector2D getClosestStone(Position bp) {
@@ -327,7 +293,6 @@ public class Controller extends Thread implements ActionListener, KeyListener {
             flag = true;
             int y = (int) (Constants.PADDLE_HEIGHT - Constants.REFLECTION_OFFSET);
             int k = (int) ((y - bp.getY()) / shortV.getDy()); // immer negativ
-
             Position paddle = new Position(bp.getX() - (double) Constants.PADDLE_WIDTH / 2 + k * shortV.getDx(), 0);
 
             if (paddle.getX() > Constants.SCREEN_WIDTH - Constants.PADDLE_WIDTH) {
@@ -335,13 +300,12 @@ public class Controller extends Thread implements ActionListener, KeyListener {
             } else if (paddle.getX() < 0) {
                 paddle = new Position(0, 0);
             }
-            System.out.println(1 + ": " + paddle.getX() + " , " + paddle.getY());
+//            System.out.println(1 + ": " + paddle.getX() + " , " + paddle.getY());
             return paddle;
         } else {
             flag = false;
             int y = (int) (Constants.SCREEN_HEIGHT - Constants.PADDLE_HEIGHT + Constants.REFLECTION_OFFSET);
             int k = (int) ((y - bp.getY()) / shortV.getDy()); // immer negativ
-
             Position paddle = new Position(bp.getX() - (double) Constants.PADDLE_WIDTH / 2 + k * shortV.getDx(),
                     Constants.SCREEN_HEIGHT - Constants.PADDLE_HEIGHT);
 
@@ -351,8 +315,7 @@ public class Controller extends Thread implements ActionListener, KeyListener {
             } else if (paddle.getX() < 0) {
                 paddle = new Position(0, Constants.SCREEN_HEIGHT - Constants.PADDLE_HEIGHT);
             }
-
-            System.out.println(2 + ": " + paddle.getX() + " , " + paddle.getY());
+//            System.out.println(2 + ": " + paddle.getX() + " , " + paddle.getY());
             return paddle;
         }
     }
@@ -361,6 +324,8 @@ public class Controller extends Thread implements ActionListener, KeyListener {
      * This thread is needed in the coop mode
      * to be able to move both paddles at the same time
      */
+    // TODO : Multiple runs/starts of the game not possible (mode 1)
+    // TODO : 'Zittern' -> Break after failing to get exact position a few times
     public void run() {
         try {
             Vector2D currV = new Vector2D(0, 0);
@@ -369,11 +334,6 @@ public class Controller extends Thread implements ActionListener, KeyListener {
                     Constants.PADDLE_WIDTH) / 2, 0);
             while (true) {
                 if (mode == 1) {
-
-                    // TODO: Löst nur aus, wenn Ball von Paddle abprallt
-                    // TODO: Durchgeführte Berechnungen augenscheinlich korrekt
-                    // TODO: Auslösen bei Abprallen an Wand und Steinen
-                    // System.out.println(currV.getDx() + " , " + currV.getDy());
                     if (currV.comp(game.getLevel().getBall().getDirection())) {
                         currV = new Vector2D(game.getLevel().getBall().getDirection());
                         Position bp = getHitPoint();
